@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { User, Bell, LogOut, CheckCircle, Clock, X } from 'lucide-react';
-
+import ChangePasswordModal from './ChangePasswordModal';
+import { User, Bell, LogOut, CheckCircle, Clock, X, KeyRound } from 'lucide-react';
 export default function Header({ currentUser, currentRole, onChangeRole, onLogout, notifications = [] }) {
   const [showNotifications, setShowNotifications] = useState(false);
-
+  const [showChangePassword, setShowChangePassword] = useState(false);
   const displayName = currentUser?.name || 'นายยุทธศักดิ์ มีดาบ';
   const displayRoleTitle = currentUser?.roleTitleTh || (currentRole === 'employee' ? 'พนักงาน' : currentRole === 'supervisor' ? 'หัวหน้างาน' : 'เจ้าหน้าที่ HR');
 
@@ -48,6 +48,15 @@ export default function Header({ currentUser, currentRole, onChangeRole, onLogou
         >
           <Bell size={24} />
           {notifications.length > 0 && <span className="badge-dot" />}
+        </button>
+        <button
+          type="button"
+          className="icon-btn"
+          title="เปลี่ยนรหัสผ่าน"
+          aria-label="เปลี่ยนรหัสผ่าน"
+          onClick={() => setShowChangePassword(true)}
+        >
+          <KeyRound size={24} />
         </button>
 
         {/* Notification Dropdown Popover */}
@@ -101,6 +110,12 @@ export default function Header({ currentUser, currentRole, onChangeRole, onLogou
           <LogOut size={24} />
         </button>
       </div>
+      {showChangePassword && (
+        <ChangePasswordModal
+          empCode={currentUser?.empId}
+          onClose={() => setShowChangePassword(false)}
+        />
+      )}
     </header>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { authenticateUser, defaultUsers } from '../data/authData';
+const API_URL = 'http://localhost:3000/api';
 import { Eye, EyeOff, Lock, User, AlertCircle, Info, CheckCircle2, ShieldCheck } from 'lucide-react';
 
 export default function LoginView({ onLoginSuccess }) {
@@ -11,22 +11,45 @@ export default function LoginView({ onLoginSuccess }) {
   const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
   const [showContactAdminModal, setShowContactAdminModal] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setErrorMessage('');
+  
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setErrorMessage('');
 
-    const result = authenticateUser(identifier, password);
-    if (result.success) {
-      if (rememberMe) {
-        localStorage.setItem('saved_emp_id', identifier);
-      } else {
-        localStorage.removeItem('saved_emp_id');
-      }
-      onLoginSuccess(result.user);
-    } else {
-      setErrorMessage(result.message);
+  try {
+    const response = await fetch(`${API_URL}/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        identifier: identifier.trim(),
+        password,
+      }),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      setErrorMessage(result.message || 'เข้าสู่ระบบไม่สำเร็จ');
+      return;
     }
-  };
+
+    if (rememberMe) {
+      localStorage.setItem('saved_emp_id', identifier.trim());
+    } else {
+      localStorage.removeItem('saved_emp_id');
+    }
+
+    onLoginSuccess(result.user);
+  } catch (error) {
+    console.error('Login error:', error);
+    setErrorMessage(
+      'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ กรุณาตรวจสอบ Backend'
+    );
+  }
+};
+
 
   // Quick fill demo credentials
   const handleQuickFill = (empId, pass) => {
