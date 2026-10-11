@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { User, Bell, LogOut, CheckCircle, Clock, X } from 'lucide-react';
 
-export default function Header({ currentRole, onChangeRole, notifications = [] }) {
+export default function Header({ currentUser, currentRole, onChangeRole, onLogout, notifications = [] }) {
   const [showNotifications, setShowNotifications] = useState(false);
+
+  const displayName = currentUser?.name || 'นายยุทธศักดิ์ มีดาบ';
+  const displayRoleTitle = currentUser?.roleTitleTh || (currentRole === 'employee' ? 'พนักงาน' : currentRole === 'supervisor' ? 'หัวหน้างาน' : 'เจ้าหน้าที่ HR');
 
   return (
     <header className="top-header">
@@ -12,9 +15,12 @@ export default function Header({ currentRole, onChangeRole, notifications = [] }
           <User size={28} strokeWidth={2.2} />
         </div>
         <div className="user-details">
-          <span className="user-name">นายยุทธศักดิ์ มีดาบ</span>
+          <span className="user-name">{displayName}</span>
           <div className="user-role-badge">
-            <span>{currentRole === 'employee' ? 'พนักงาน' : currentRole === 'supervisor' ? 'หัวหน้างาน' : 'เจ้าหน้าที่ HR'}</span>
+            <span>{displayRoleTitle}</span>
+            {currentUser?.empId && (
+              <span className="user-empid-pill">({currentUser.empId})</span>
+            )}
             {/* Quick role toggle for preview */}
             <button
               type="button"
@@ -84,7 +90,11 @@ export default function Header({ currentRole, onChangeRole, notifications = [] }
           title="ออกจากระบบ"
           onClick={() => {
             if (confirm('คุณต้องการออกจากระบบใช่หรือไม่?')) {
-              window.location.reload();
+              if (onLogout) {
+                onLogout();
+              } else {
+                window.location.reload();
+              }
             }
           }}
         >

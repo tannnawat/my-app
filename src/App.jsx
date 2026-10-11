@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Header from './components/Header';
 import Navbar from './components/Navbar';
+import LoginView from './components/LoginView';
 import CalendarQuotaView from './components/CalendarQuotaView';
 import SummaryReportView from './components/SummaryReportView';
 import LeaveRequestFormView from './components/LeaveRequestFormView';
@@ -11,6 +12,9 @@ import { initialLeaveRequests } from './data/leaveData';
 import { Search, ChevronDown, Eye, RotateCcw, FileText, Clock, CheckCircle, XCircle } from 'lucide-react';
 
 function App() {
+  // Current Logged-in User (null = show Login screen)
+  const [currentUser, setCurrentUser] = useState(null);
+
   // Roles: 'employee' (default), 'supervisor', 'hr'
   const [currentRole, setCurrentRole] = useState('employee');
 
@@ -181,6 +185,39 @@ function App() {
     showToast(`อัปเดตสถานะเป็น "${newStatus}" เรียบร้อยแล้ว`);
   };
 
+  const handleLoginSuccess = (user) => {
+    setCurrentUser(user);
+    setCurrentRole(user.role);
+    if (user.role === 'employee') {
+      setActiveTab('calendar');
+    } else if (user.role === 'supervisor') {
+      setActiveTab('approval');
+    } else if (user.role === 'hr') {
+      setActiveTab('reports');
+    }
+    showToast(`เข้าสู่ระบบสำเร็จ: ยินดีต้อนรับ ${user.name} (${user.roleTitleTh})`);
+  };
+
+  const handleLogout = () => {
+    setCurrentUser(null);
+    showToast('ออกจากระบบเรียบร้อยแล้ว');
+  };
+
+  // If user is not logged in, show the Login screen!
+  if (!currentUser) {
+    return (
+      <div className="login-root-container">
+        <LoginView onLoginSuccess={handleLoginSuccess} />
+        {toastMessage && (
+          <div className="toast-notice" id="toast-notification">
+            <CheckCircle size={18} color="#4ade80" />
+            <span>{toastMessage}</span>
+          </div>
+        )}
+      </div>
+    );
+  }
+
   // Filtered requests for supervisor approval
   const filteredSupervisorRequests = leaveRequests.filter((item) => {
     if (
@@ -206,11 +243,20 @@ function App() {
     <div className="leave-app-wrapper">
       {/* Top Header */}
       <Header
+        currentUser={currentUser}
         currentRole={currentRole}
         onChangeRole={(newRole) => {
           setCurrentRole(newRole);
+          if (currentUser) {
+            setCurrentUser(prev => ({
+              ...prev,
+              role: newRole,
+              roleTitleTh: newRole === 'employee' ? 'พนักงาน' : newRole === 'supervisor' ? 'หัวหน้างาน' : 'เจ้าหน้าที่ HR'
+            }));
+          }
           showToast(`สลับไปที่มุมมอง: ${newRole === 'employee' ? 'พนักงาน' : newRole === 'supervisor' ? 'หัวหน้างาน' : 'HR'}`);
         }}
+        onLogout={handleLogout}
         notifications={notifications}
       />
 
