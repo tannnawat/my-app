@@ -1,111 +1,1013 @@
+/* ========================================================
+   ระบบการลา (Leave Management System) - Employee & System Styles
+   ======================================================== */
+
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
-
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+  --font-thai: 'Prompt', 'Sarabun', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  /* Primary Theme Palette */
+  --header-bg: #d4eaf7;
+  --page-bg: #d6eaf8;
+  --card-bg: #ffffff;
+  --nav-bg: #ffffff;
+  
+  /* Table & Header Colors */
+  --table-header-bg: #214870;
+  --table-header-hover: #1b3d60;
+  --table-border: #9ec5e3;
+  --table-row-hover: #f1f8fd;
+  
+  /* Accent Colors */
+  --primary-navy: #1f3e61;
+  --primary-navy-hover: #162f4b;
+  --primary-blue: #2563eb;
+  --accent-sky: #70b4e5;
+  
+  /* Leave Type Colors (Matches Image 1 & 2 exactly) */
+  --color-sick: #52c41a;       /* ลาป่วย - Green (#52c41a / #61d368) */
+  --color-business: #f59e0b;   /* ลากิจ - Orange (#f59e0b / #f0932b) */
+  --color-vacation: #f87171;   /* ลาพักร้อน - Coral/Red (#f87171 / #ff6b6b) */
+  --color-maternity: #d946ef;  /* ลาคลอด - Magenta/Purple (#d946ef / #e056fd) */
+  --color-other: #22d3ee;      /* อื่นๆ - Cyan/Teal (#22d3ee / #38bdf8) */
+  
+  /* Status Colors */
+  --status-approved-bg: #99d89f;
+  --status-approved-text: #1b4920;
+  --status-pending-bg: #fed986;
+  --status-pending-text: #7c4a03;
+  --status-rejected-bg: #ff7575;
+  --status-rejected-text: #6b1414;
+  
+  /* Text Colors */
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --text-light: #94a3b8;
+  --text-navy: #102a43;
+  
+  /* Radii & Shadows */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-full: 9999px;
+  
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(33, 72, 112, 0.12);
+  --shadow-lg: 0 10px 25px rgba(33, 72, 112, 0.18);
+  --shadow-modal: 0 20px 40px rgba(15, 23, 42, 0.28);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
+  font-family: var(--font-thai);
+  background-color: var(--page-bg);
+  color: var(--text-main);
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
 #root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+/* ================= TOP HEADER ================= */
+.top-header {
+  background-color: var(--header-bg);
+  padding: 12px 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(158, 197, 227, 0.6);
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
+.user-profile-widget {
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+.avatar-box {
+  width: 48px;
+  height: 48px;
+  background-color: var(--primary-navy);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(31, 62, 97, 0.3);
+  position: relative;
+  overflow: hidden;
 }
 
-code {
+.user-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
   font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+  font-weight: 600;
+  color: #1e354f;
+  line-height: 1.25;
+}
+
+.user-role-badge {
+  font-size: 12.5px;
+  color: #55708b;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.role-switcher-btn {
+  background: rgba(31, 62, 97, 0.08);
+  border: 1px solid rgba(31, 62, 97, 0.2);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-family: inherit;
+  font-size: 11.5px;
+  color: #1e3a5f;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.role-switcher-btn:hover {
+  background: var(--primary-navy);
+  color: #ffffff;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+}
+
+.icon-btn {
+  width: 42px;
+  height: 42px;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  color: var(--primary-navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.icon-btn:hover {
+  background: rgba(31, 62, 97, 0.09);
+  transform: scale(1.05);
+}
+
+.badge-dot {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 9px;
+  height: 9px;
+  background: #ef4444;
+  border-radius: 50%;
+  border: 2px solid var(--header-bg);
+}
+
+/* Notification Popover */
+.notifications-popover {
+  position: absolute;
+  top: 52px;
+  right: 0;
+  width: 320px;
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid #cbd5e1;
+  z-index: 100;
+  padding: 12px;
+  animation: slideUp 0.2s ease-out;
+}
+
+.notif-header {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.notif-item {
+  padding: 10px 8px;
+  border-bottom: 1px solid #f8fafc;
+  font-size: 13px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+
+.notif-item:hover {
+  background: #f1f5f9;
+}
+
+.notif-item-title {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.notif-item-time {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 3px;
+}
+
+/* ================= MAIN NAVIGATION ================= */
+.main-nav {
+  background-color: var(--nav-bg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  padding: 0 36px;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.nav-brand {
+  display: flex;
+  flex-direction: column;
+  padding: 14px 20px 14px 0;
+  border-right: 1.5px solid #edf2f7;
+  text-decoration: none;
+  margin-right: 8px;
+}
+
+.brand-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1e3a5f;
+  letter-spacing: -0.2px;
+  line-height: 1.2;
+}
+
+.brand-subtitle {
+  font-size: 13px;
+  font-weight: 500;
+  color: #4b6785;
+}
+
+.nav-menu-list {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 8px;
+  flex: 1;
+  justify-content: space-around;
+}
+
+.nav-item-btn {
+  background: none;
+  border: none;
+  padding: 18px 14px;
+  font-family: var(--font-thai);
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #334e68;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+  white-space: pre-line;
+  text-align: center;
+}
+
+.nav-item-btn:hover {
+  color: #1d4ed8;
+}
+
+.nav-item-btn.active {
+  color: #1d4ed8;
+  font-weight: 600;
+}
+
+.nav-item-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  right: 10px;
+  height: 3px;
+  background-color: #1d4ed8;
+  border-radius: 3px 3px 0 0;
+}
+
+/* ================= PAGE CONTAINER ================= */
+.page-container {
+  max-width: 1320px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 24px 36px 48px;
+  flex: 1;
+}
+
+.page-main-header {
+  margin-bottom: 20px;
+}
+
+.page-title-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a334e;
+}
+
+/* ========================================================
+   PAGE 1: ปฏิทินวันลา / สิทธิ์คงเหลือ (CALENDAR & QUOTA)
+   ======================================================== */
+.calendar-page-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 28px;
+  align-items: start;
+}
+
+.calendar-main-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Month Selector & Legends Bar */
+.calendar-top-bar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.month-dropdown-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #b6daf3;
+  color: #1e3a5f;
+  font-family: var(--font-thai);
+  font-size: 14.5px;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: var(--radius-md);
+  border: 1px solid #9dc9eb;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 1px 3px rgba(31, 62, 97, 0.1);
+}
+
+.month-dropdown-btn:hover {
+  background: #a4d0f0;
+}
+
+.calendar-legend-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.legend-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  color: #243b53;
+  font-weight: 500;
+}
+
+.legend-dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.dot-sick { background-color: var(--color-sick); }
+.dot-business { background-color: var(--color-business); }
+.dot-vacation { background-color: var(--color-vacation); }
+.dot-maternity { background-color: var(--color-maternity); }
+.dot-other { background-color: var(--color-other); }
+
+/* Calendar Grid */
+.calendar-table-card {
+  background: #ffffff;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  border: 1.5px solid #a4c9e4;
+}
+
+.calendar-grid-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.calendar-grid-table thead tr {
+  background-color: var(--table-header-bg);
+}
+
+.calendar-grid-table th {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 15px 10px;
+  border-right: 1.5px solid rgba(255, 255, 255, 0.2);
+  width: 14.285%;
+}
+
+.calendar-grid-table th:last-child {
+  border-right: none;
+}
+
+.calendar-grid-table td {
+  height: 64px;
+  border-right: 1.5px solid #a4c9e4;
+  border-bottom: 1.5px solid #a4c9e4;
+  font-size: 16px;
+  font-weight: 500;
+  color: #102a43;
+  vertical-align: middle;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+}
+
+.calendar-grid-table td:last-child {
+  border-right: none;
+}
+
+.calendar-grid-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.calendar-grid-table td:hover {
+  filter: brightness(0.95);
+  box-shadow: inset 0 0 0 2px #2563eb;
+}
+
+/* Event Days Cell Backgrounds matching Image 1 exactly */
+.cal-cell-event-business {
+  background-color: #f6ad55 !important; /* Feb 6 - ลากิจ (Orange) */
+  color: #1e293b !important;
+  font-weight: 600 !important;
+}
+
+.cal-cell-event-vacation {
+  background-color: #f87171 !important; /* Feb 11 - ลาพักร้อน (Coral/Red) */
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+.cal-cell-event-sick {
+  background-color: #6ee7b7 !important; /* Feb 16 - ลาป่วย (Light Green) */
+  color: #064e3b !important;
+  font-weight: 600 !important;
+}
+
+.cal-cell-event-other {
+  background-color: #2dd4bf !important; /* Feb 22 - อื่นๆ (Cyan) */
+  color: #042f2e !important;
+  font-weight: 600 !important;
+}
+
+.cal-cell-event-maternity {
+  background-color: #e879f9 !important; /* Feb 27 - ลาคลอด (Magenta/Pink) */
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+/* Sidebar Cards for Page 1 */
+.calendar-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sidebar-info-card {
+  background: #ffffff;
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  border: 1.5px solid #b7d6ee;
+}
+
+.sidebar-card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #102a43;
+  margin-bottom: 16px;
+  padding-bottom: 6px;
+}
+
+.quota-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.quota-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14.5px;
+  color: #243b53;
+}
+
+.quota-type-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+}
+
+.quota-value {
+  font-weight: 600;
+  color: #102a43;
+}
+
+/* Leave Types Card */
+.leave-types-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 16px;
+  font-size: 14px;
+  color: #334e68;
+  font-weight: 500;
+}
+
+.view-all-link {
+  display: block;
+  text-align: right;
+  margin-top: 18px;
+  font-size: 13.5px;
+  color: #2563eb;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.view-all-link:hover {
+  color: #1d4ed8;
+}
+
+/* ========================================================
+   PAGE 2: สรุปรายงานการลา (SUMMARY REPORT)
+   ======================================================== */
+.report-page-header {
+  margin-bottom: 16px;
+}
+
+.report-date-range-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.range-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: #102a43;
+}
+
+.range-input-wrapper {
+  position: relative;
+  width: 250px;
+}
+
+.range-input-wrapper input {
+  width: 100%;
+  height: 40px;
+  padding: 0 38px 0 14px;
+  background: #ffffff;
+  border: 1.5px solid #9dc5e4;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-thai);
+  font-size: 14px;
+  color: #1e293b;
+  outline: none;
+}
+
+.range-input-wrapper input:focus {
+  border-color: var(--primary-navy);
+}
+
+.range-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #557b9d;
+  pointer-events: none;
+}
+
+/* 2 Column Layout for Report Page */
+.report-content-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* Left: Chart Section */
+.chart-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.section-sub-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #102a43;
+}
+
+.chart-card {
+  background: #ffffff;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid #b7d6ee;
+  box-shadow: var(--shadow-sm);
+  padding: 24px;
+  position: relative;
+}
+
+.chart-legend-top-right {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+/* SVG Bar Chart Styling */
+.bar-chart-svg {
+  width: 100%;
+  height: 300px;
+  overflow: visible;
+}
+
+/* Right: Department Table Section */
+.report-table-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.report-filter-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.report-filter-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.report-filter-item label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #102a43;
+}
+
+.report-select-wrap {
+  position: relative;
+}
+
+.report-select {
+  width: 100%;
+  height: 40px;
+  background: #ffffff;
+  border: 1.5px solid #9dc5e4;
+  border-radius: var(--radius-sm);
+  padding: 0 32px 0 12px;
+  font-family: var(--font-thai);
+  font-size: 14px;
+  color: #1e293b;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.report-select-arrow {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #557b9d;
+}
+
+.btn-report-search {
+  height: 40px;
+  padding: 0 20px;
+  background: var(--primary-navy);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-thai);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(31, 62, 97, 0.2);
+}
+
+.btn-report-search:hover {
+  background: var(--primary-navy-hover);
+}
+
+/* Department Summary Table */
+.dept-table-card {
+  border: 1.5px solid #a0c6e2;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.dept-summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.dept-summary-table thead tr {
+  background-color: var(--table-header-bg);
+}
+
+.dept-summary-table th {
+  color: #ffffff;
+  font-size: 14.5px;
+  font-weight: 600;
+  padding: 13px 8px;
+  border-right: 1.5px solid rgba(255, 255, 255, 0.2);
+}
+
+.dept-summary-table th:last-child {
+  border-right: none;
+}
+
+.dept-summary-table tbody tr {
+  background-color: #bce0fa; /* Alternating soft blue */
+  border-bottom: 2px solid #ffffff;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #102a43;
+}
+
+.dept-summary-table tbody tr:nth-child(even) {
+  background-color: #aed6f5;
+}
+
+.dept-summary-table td {
+  padding: 13px 8px;
+  border-right: 2px solid #ffffff;
+}
+
+.dept-summary-table td:last-child {
+  border-right: none;
+}
+
+.dept-summary-table tfoot tr {
+  background-color: var(--table-header-bg);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14.5px;
+}
+
+.dept-summary-table tfoot td {
+  padding: 13px 8px;
+  border-right: 1.5px solid rgba(255, 255, 255, 0.2);
+}
+
+.dept-summary-table tfoot td:last-child {
+  border-right: none;
+}
+
+/* ================= LEAVE REQUEST FORM & HISTORY ================= */
+.form-card {
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  padding: 28px;
+  box-shadow: var(--shadow-md);
+  border: 1.5px solid #bed6e8;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1e3a5f;
+}
+
+.form-control {
+  height: 42px;
+  padding: 0 14px;
+  border: 1.5px solid #a8cde5;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.form-control:focus {
+  border-color: var(--primary-navy);
+}
+
+textarea.form-control {
+  height: 80px;
+  padding: 10px 14px;
+}
+
+.file-upload-box {
+  border: 2px dashed #9bc4df;
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  text-align: center;
+  background: #f8fafc;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.file-upload-box:hover {
+  background: #eff6ff;
+  border-color: #2563eb;
+}
+
+/* Toast */
+.toast-notice {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #0f172a;
+  color: #ffffff;
+  padding: 14px 20px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  font-family: var(--font-thai);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 200;
+  animation: slideInRight 0.3s ease-out;
+}
+
+/* Modal Backdrops & Content */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-content {
+  background: #ffffff;
+  width: 100%;
+  max-width: 620px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-modal);
+  overflow: hidden;
+  animation: slideUp 0.25s ease-out;
+  border: 1px solid #e2e8f0;
+}
+
+.modal-header {
+  background-color: var(--primary-navy);
+  color: #ffffff;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-header h3 {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.modal-close-btn {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.modal-close-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.modal-body {
+  padding: 22px 24px;
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .calendar-page-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .report-content-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .top-header {
+    padding: 12px 18px;
+  }
+  
+  .main-nav {
+    padding: 0 12px;
+    overflow-x: auto;
+  }
+  
+  .nav-menu-list {
+    min-width: 600px;
+  }
+  
+  .page-container {
+    padding: 16px 16px 36px;
+  }
+  
+  .form-grid-2 {
+    grid-template-columns: 1fr;
+  }
 }
