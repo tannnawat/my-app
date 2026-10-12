@@ -183,26 +183,26 @@ const handleSubmit = async (e) => {
               <button
                 type="button"
                 className="btn-quick-account btn-quick-emp"
-                title="รหัสพนักงาน: EMP001 / รหัสผ่าน: 1234"
-                onClick={() => handleQuickFill('EMP001', '1234')}
+                title="รหัสพนักงาน: EMP-0042 / รหัสผ่าน: 1234"
+                onClick={() => handleQuickFill('EMP-0042', '1234')}
               >
-                👤 พนักงาน (EMP001)
+                👤 พนักงาน (EMP-0042)
               </button>
               <button
                 type="button"
                 className="btn-quick-account btn-quick-sup"
-                title="รหัสหัวหน้างาน: SUP001 / รหัสผ่าน: 1234"
-                onClick={() => handleQuickFill('SUP001', '1234')}
+                title="รหัสหัวหน้างาน: EMP-0010 / รหัสผ่าน: 1234"
+                onClick={() => handleQuickFill('EMP-0010', '1234')}
               >
-                👔 หัวหน้า (SUP001)
+                👔 หัวหน้า (EMP-0010)
               </button>
               <button
                 type="button"
                 className="btn-quick-account btn-quick-hr"
-                title="รหัสเจ้าหน้าที่ HR: HR001 / รหัสผ่าน: 1234"
-                onClick={() => handleQuickFill('HR001', '1234')}
+                title="รหัสเจ้าหน้าที่ HR: EMP-0062 / รหัสผ่าน: 1234"
+                onClick={() => handleQuickFill('EMP-0062', '1234')}
               >
-                💼 HR (HR001)
+                💼 HR (EMP-0062)
               </button>
             </div>
             <div className="quick-accounts-note">

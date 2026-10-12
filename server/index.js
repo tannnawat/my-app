@@ -1,10 +1,10 @@
 
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
+
 import { pool } from "./config/db.js";
 import bcrypt from "bcryptjs";
-dotenv.config();
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -105,10 +105,15 @@ app.post("/api/login", async (req, res) => {
          e.last_name,
          e.email,
          e.status,
+         e.department_id,
+         d.department_name,
+         p.position_name,
          r.role_name,
          r.role_title_th
        FROM employees e
        JOIN roles r ON e.role_id = r.role_id
+       JOIN departments d ON e.department_id = d.department_id
+       JOIN positions p ON e.position_id = p.position_id
        WHERE (
          LOWER(e.username) = LOWER($1)
          OR LOWER(e.emp_code) = LOWER($1)
@@ -148,6 +153,9 @@ app.post("/api/login", async (req, res) => {
             lastName: employee.last_name,
             role: employee.role_name.toLowerCase(),
             roleTitle: employee.role_title_th,
+            roleTitleTh: employee.role_title_th,
+            department: employee.department_name,
+            position: employee.position_name,
         };
 
         return res.json({

@@ -287,6 +287,7 @@ function App() {
         {/* TAB 4: ยื่นคำขอลา */}
         {activeTab === 'request' && (
           <LeaveRequestFormView
+            currentUser={currentUser}
             onSubmitRequest={handleAddNewRequest}
             onNavigateToHistory={() => setActiveTab('history')}
           />
@@ -295,7 +296,7 @@ function App() {
         {/* TAB 5: รายการประวัติ / สถานะคำขอ */}
         {activeTab === 'history' && (
           <LeaveHistoryView
-            requests={leaveRequests.filter(r => r.name === 'นายยุทธศักดิ์ มีดาบ')}
+            requests={leaveRequests.filter(r => r.empId === currentUser.empId || r.employeeId === currentUser.id)}
             onSelectRequest={(item) => setSelectedRequest(item)}
           />
         )}
