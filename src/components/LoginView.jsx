@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'https://my-app-7yiq.onrender.com/api';
 import { Eye, EyeOff, Lock, User, AlertCircle, Info, CheckCircle2, ShieldCheck } from 'lucide-react';
 
 export default function LoginView({ onLoginSuccess }) {

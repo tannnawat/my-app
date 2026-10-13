@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { KeyRound, Eye, EyeOff, X } from 'lucide-react';
 
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'https://my-app-7yiq.onrender.com/api';
 
 export default function ChangePasswordModal({ empCode, onClose }) {
     const [currentPassword, setCurrentPassword] = useState('');
