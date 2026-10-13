@@ -1,12 +1,16 @@
 
 import express from "express";
 import cors from "cors";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 import { pool } from "./config/db.js";
 import bcrypt from "bcryptjs";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const DIST_DIR = path.resolve(__dirname, "../dist");
 
 app.use(cors());
 app.use(express.json());
@@ -241,11 +245,17 @@ app.post("/api/change-password", async (req, res) => {
 });
 
 
+// ให้ Express ส่งไฟล์หน้าเว็บ React/Vite ที่ได้จาก npm run build
+app.use(express.static(DIST_DIR));
 
+// สำหรับเส้นทางหน้าเว็บอื่น ๆ ให้ React จัดการต่อ (SPA fallback)
+app.use((req, res, next) => {
+    if (req.method !== "GET" || req.path.startsWith("/api")) {
+        return next();
+    }
 
-app.get("/", (req, res) => {
-    res.json({
-        message: "Backend is running!"
+    res.sendFile(path.join(DIST_DIR, "index.html"), (error) => {
+        if (error) next(error);
     });
 });
 

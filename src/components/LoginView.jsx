@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-const API_URL = 'https://my-app-7yiq.onrender.com/api';
 import { Eye, EyeOff, Lock, User, AlertCircle, Info, CheckCircle2, ShieldCheck } from 'lucide-react';
+
+// Frontend และ API อยู่ใน Render service เดียวกัน จึงใช้ same-origin URL
+const API_URL = '/api';
 
 export default function LoginView({ onLoginSuccess }) {
   const [identifier, setIdentifier] = useState('');
@@ -16,7 +18,11 @@ const handleSubmit = async (e) => {
   e.preventDefault();
   setErrorMessage('');
 
+  console.log('[Login] กดปุ่ม Login แล้ว');
+  console.log('[Login] identifier:', identifier.trim());
+
   try {
+    console.log('[Login] กำลังเรียก API:', `${API_URL}/login`);
     const response = await fetch(`${API_URL}/login`, {
       method: 'POST',
       headers: {
@@ -28,7 +34,9 @@ const handleSubmit = async (e) => {
       }),
     });
 
+    console.log('[Login] HTTP status:', response.status);
     const result = await response.json();
+    console.log('[Login] API result:', result);
 
     if (!response.ok || !result.success) {
       setErrorMessage(result.message || 'เข้าสู่ระบบไม่สำเร็จ');
@@ -183,30 +191,30 @@ const handleSubmit = async (e) => {
               <button
                 type="button"
                 className="btn-quick-account btn-quick-emp"
-                title="รหัสพนักงาน: EMP-0042 / รหัสผ่าน: 1234"
-                onClick={() => handleQuickFill('EMP-0042', '1234')}
+                title="รหัสพนักงาน: EMP-0042 / รหัสผ่าน: ChangeMe123!"
+                onClick={() => handleQuickFill('EMP-0042', 'ChangeMe123!')}
               >
                 👤 พนักงาน (EMP-0042)
               </button>
               <button
                 type="button"
                 className="btn-quick-account btn-quick-sup"
-                title="รหัสหัวหน้างาน: EMP-0010 / รหัสผ่าน: 1234"
-                onClick={() => handleQuickFill('EMP-0010', '1234')}
+                title="รหัสหัวหน้างาน: EMP-0010 / รหัสผ่าน: ChangeMe123!"
+                onClick={() => handleQuickFill('EMP-0010', 'ChangeMe123!')}
               >
                 👔 หัวหน้า (EMP-0010)
               </button>
               <button
                 type="button"
                 className="btn-quick-account btn-quick-hr"
-                title="รหัสเจ้าหน้าที่ HR: EMP-0062 / รหัสผ่าน: 1234"
-                onClick={() => handleQuickFill('EMP-0062', '1234')}
+                title="รหัสเจ้าหน้าที่ HR: EMP-0062 / รหัสผ่าน: ChangeMe123!"
+                onClick={() => handleQuickFill('EMP-0062', 'ChangeMe123!')}
               >
                 💼 HR (EMP-0062)
               </button>
             </div>
             <div className="quick-accounts-note">
-              * รหัสผ่านเริ่มต้นคือ: <code>1234</code> (สามารถแก้ที่ <code>src/data/authData.js</code> ได้)
+              * รหัสผ่านทดสอบคือ: <code>ChangeMe123!</code> (สามารถแก้ที่ <code>src/data/authData.js</code> ได้)
             </div>
           </div>
         </div>
