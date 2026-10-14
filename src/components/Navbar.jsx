@@ -1,46 +1,73 @@
+
 import React from 'react';
 
-export default function Navbar({ activeTab, setActiveTab, currentRole = 'employee' }) {
-  // Navigation menu items for Employee role (as shown in both Image 1 and Image 2)
+export default function Navbar({
+  activeTab,
+  setActiveTab,
+  currentRole = 'employee'
+}) {
+  // เมนูของพนักงาน
   const employeeMenuItems = [
     { id: 'dashboard', label: 'หน้าหลัก' },
     { id: 'request', label: 'ยื่นคำขอลา' },
-    { id: 'history', label: 'รายการประวัติ /\nสถานะคำขอ' },
-    { id: 'calendar', label: 'ปฏิทินวันลา /\nสิทธิ์คงเหลือ' },
-    { id: 'reports', label: 'รายงานสรุป' },
+    { id: 'history', label: 'ประวัติ / สถานะคำขอ' },
+    { id: 'calendar', label: 'ปฏิทินวันลา / สิทธิ์คงเหลือ' }
   ];
 
-  // If role is supervisor/hr, include "อนุมัติคำขอ"
+  // เมนูของหัวหน้างาน
   const supervisorMenuItems = [
     { id: 'dashboard', label: 'หน้าหลัก' },
-    { id: 'request', label: 'ยื่นคำขอลา' },
-    { id: 'history', label: 'รายการประวัติ /\nสถานะคำขอ' },
-    { id: 'approval', label: 'อนุมัติคำขอ' },
-    { id: 'calendar', label: 'ปฏิทินวันลา /\nสิทธิ์คงเหลือ' },
-    { id: 'reports', label: 'รายงานสรุป' },
+    { id: 'approval', label: 'อนุมัติคำขอ' }
   ];
 
-  const menuItems = currentRole === 'employee' ? employeeMenuItems : supervisorMenuItems;
+  // เมนูของ HR
+  const hrMenuItems = [
+    { id: 'reports', label: 'รายงานสรุป' }
+  ];
+
+  // เลือกเมนูตาม Role
+  let menuItems;
+
+  if (currentRole === 'supervisor') {
+    menuItems = supervisorMenuItems;
+  } else if (currentRole === 'hr') {
+    menuItems = hrMenuItems;
+  } else {
+    menuItems = employeeMenuItems;
+  }
 
   return (
     <nav className="main-nav" aria-label="Main Navigation">
       <div className="nav-container">
-        {/* Brand Logo / Title */}
-        <div className="nav-brand" id="brand-logo" onClick={() => setActiveTab('calendar')} style={{ cursor: 'pointer' }}>
+        <div
+          className="nav-brand"
+          id="brand-logo"
+          onClick={() => {
+            if (currentRole === 'supervisor') {
+              setActiveTab('dashboard');
+            } else if (currentRole === 'hr') {
+              setActiveTab('reports');
+            } else {
+              setActiveTab('calendar');
+            }
+          }}
+          style={{ cursor: 'pointer' }}
+        >
           <span className="brand-title">Leave System</span>
           <span className="brand-subtitle">ระบบการลา</span>
         </div>
 
-        {/* Menu Items */}
         <ul className="nav-menu-list">
           {menuItems.map((item) => {
             const isActive = activeTab === item.id;
+
             return (
               <li key={item.id}>
                 <button
                   type="button"
                   id={`nav-item-${item.id}`}
-                  className={`nav-item-btn ${isActive ? 'active' : ''}`}
+                  className={`nav-item-btn ${isActive ? 'active' : ''
+                    }`}
                   onClick={() => setActiveTab(item.id)}
                 >
                   {item.label}

@@ -181,33 +181,43 @@ function App() {
     setSelectedRequest((prev) =>
       prev && prev.id === id
         ? {
-            ...prev,
-            status: newStatus,
-            rejectionReason:
-              newStatus === 'ไม่อนุมัติ'
-                ? reason || 'ไม่อนุมัติโดยหัวหน้างาน'
-                : null
-          }
+          ...prev,
+          status: newStatus,
+          rejectionReason:
+            newStatus === 'ไม่อนุมัติ'
+              ? reason || 'ไม่อนุมัติโดยหัวหน้างาน'
+              : null
+        }
         : null
     );
 
     showToast(`อัปเดตสถานะเป็น "${newStatus}" เรียบร้อยแล้ว`);
   };
 
+
   const handleLoginSuccess = (user) => {
+    // เก็บข้อมูลผู้ใช้และ Role
     setCurrentUser(user);
     setCurrentRole(user.role);
 
+    // กำหนดหน้าแรกตาม Role
     if (user.role === 'employee') {
       setActiveTab('calendar');
     } else if (user.role === 'supervisor') {
-      setActiveTab('approval');
+      setActiveTab('dashboard');
     } else if (user.role === 'hr') {
       setActiveTab('reports');
+    } else {
+      // ถ้า Role ไม่ตรง ให้แจ้งเตือน
+      showToast(`ไม่พบ Role ที่รองรับ: ${user.role}`);
+      return;
     }
 
-    showToast(`เข้าสู่ระบบสำเร็จ: ยินดีต้อนรับ ${user.name} (${user.roleTitleTh})`);
+    showToast(
+      `เข้าสู่ระบบสำเร็จ: ยินดีต้อนรับ ${user.name} (${user.roleTitleTh})`
+    );
   };
+
 
   const handleLogout = () => {
     setCurrentUser(null);
@@ -250,12 +260,11 @@ function App() {
             }));
           }
           showToast(
-            `สลับไปที่มุมมอง: ${
-              newRole === 'employee'
-                ? 'พนักงาน'
-                : newRole === 'supervisor'
-                  ? 'หัวหน้างาน'
-                  : 'HR'
+            `สลับไปที่มุมมอง: ${newRole === 'employee'
+              ? 'พนักงาน'
+              : newRole === 'supervisor'
+                ? 'หัวหน้างาน'
+                : 'HR'
             }`
           );
         }}
@@ -333,14 +342,19 @@ function App() {
           />
         )}
 
-        {activeTab === 'approval' && currentRole !== 'supervisor' && (
+
+        {activeTab === 'approval' && currentRole === 'supervisor' && (
           <SupervisorApprovalView
             requests={leaveRequests}
             searchText={supervisorSearchText}
             onSearchTextChange={setSupervisorSearchText}
-            onOpenRequest={(request) => setSelectedRequest(request)}
+            onOpenRequest={(request) => {
+              setSelectedRequest(request);
+              setActiveTab('approval-detail');
+            }}
           />
         )}
+
 
         {activeTab === 'approval-detail' && currentRole === 'supervisor' && selectedRequest && (
           <SupervisorLeaveDetailsView
