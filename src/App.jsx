@@ -290,9 +290,7 @@ function App() {
 
         {/* TAB 2: Leave reports */}
         {activeTab === 'reports' && <SummaryReportView />}
-        {activeTab === 'hr-requests' && currentRole === 'hr' && (
-          <HRLeaveRequestsView requests={leaveRequests} />
-        )}
+
 
         {/* หน้า HR: จัดการคำขอลา */}
         {activeTab === 'hr-requests' && currentRole === 'hr' && (
@@ -309,11 +307,7 @@ function App() {
           <HRLeaveEntitlementsView />
         )}
 
-        {/* หน้า HR: รายงานสรุป */}
-        {activeTab === 'reports' && currentRole === 'hr' && (
-          <SummaryReportView />
-        )}
-        ```
+
 
         {/* TAB 3: Dashboard */}
         {activeTab === 'dashboard' && currentRole === 'supervisor' && (
