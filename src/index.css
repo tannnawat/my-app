@@ -4,32 +4,37 @@
 
 :root {
   --font-thai: 'Prompt', 'Sarabun', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  
+
   /* Primary Theme Palette */
   --header-bg: #d4eaf7;
   --page-bg: #d6eaf8;
   --card-bg: #ffffff;
   --nav-bg: #ffffff;
-  
+
   /* Table & Header Colors */
   --table-header-bg: #214870;
   --table-header-hover: #1b3d60;
   --table-border: #9ec5e3;
   --table-row-hover: #f1f8fd;
-  
+
   /* Accent Colors */
   --primary-navy: #1f3e61;
   --primary-navy-hover: #162f4b;
   --primary-blue: #2563eb;
   --accent-sky: #70b4e5;
-  
+
   /* Leave Type Colors (Matches Image 1 & 2 exactly) */
-  --color-sick: #52c41a;       /* ลาป่วย - Green (#52c41a / #61d368) */
-  --color-business: #f59e0b;   /* ลากิจ - Orange (#f59e0b / #f0932b) */
-  --color-vacation: #f87171;   /* ลาพักร้อน - Coral/Red (#f87171 / #ff6b6b) */
-  --color-maternity: #d946ef;  /* ลาคลอด - Magenta/Purple (#d946ef / #e056fd) */
-  --color-other: #22d3ee;      /* อื่นๆ - Cyan/Teal (#22d3ee / #38bdf8) */
-  
+  --color-sick: #52c41a;
+  /* ลาป่วย - Green (#52c41a / #61d368) */
+  --color-business: #f59e0b;
+  /* ลากิจ - Orange (#f59e0b / #f0932b) */
+  --color-vacation: #f87171;
+  /* ลาพักร้อน - Coral/Red (#f87171 / #ff6b6b) */
+  --color-maternity: #d946ef;
+  /* ลาคลอด - Magenta/Purple (#d946ef / #e056fd) */
+  --color-other: #22d3ee;
+  /* อื่นๆ - Cyan/Teal (#22d3ee / #38bdf8) */
+
   /* Status Colors */
   --status-approved-bg: #99d89f;
   --status-approved-text: #1b4920;
@@ -37,19 +42,19 @@
   --status-pending-text: #7c4a03;
   --status-rejected-bg: #ff7575;
   --status-rejected-text: #6b1414;
-  
+
   /* Text Colors */
   --text-main: #1e293b;
   --text-muted: #64748b;
   --text-light: #94a3b8;
   --text-navy: #102a43;
-  
+
   /* Radii & Shadows */
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 14px;
   --radius-full: 9999px;
-  
+
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
   --shadow-md: 0 4px 12px rgba(33, 72, 112, 0.12);
   --shadow-lg: 0 10px 25px rgba(33, 72, 112, 0.18);
@@ -406,11 +411,25 @@ body {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
 }
 
-.dot-sick { background-color: var(--color-sick); }
-.dot-business { background-color: var(--color-business); }
-.dot-vacation { background-color: var(--color-vacation); }
-.dot-maternity { background-color: var(--color-maternity); }
-.dot-other { background-color: var(--color-other); }
+.dot-sick {
+  background-color: var(--color-sick);
+}
+
+.dot-business {
+  background-color: var(--color-business);
+}
+
+.dot-vacation {
+  background-color: var(--color-vacation);
+}
+
+.dot-maternity {
+  background-color: var(--color-maternity);
+}
+
+.dot-other {
+  background-color: var(--color-other);
+}
 
 /* Calendar Grid */
 .calendar-table-card {
@@ -473,31 +492,36 @@ body {
 
 /* Event Days Cell Backgrounds matching Image 1 exactly */
 .cal-cell-event-business {
-  background-color: #f6ad55 !important; /* Feb 6 - ลากิจ (Orange) */
+  background-color: #f6ad55 !important;
+  /* Feb 6 - ลากิจ (Orange) */
   color: #1e293b !important;
   font-weight: 600 !important;
 }
 
 .cal-cell-event-vacation {
-  background-color: #f87171 !important; /* Feb 11 - ลาพักร้อน (Coral/Red) */
+  background-color: #f87171 !important;
+  /* Feb 11 - ลาพักร้อน (Coral/Red) */
   color: #ffffff !important;
   font-weight: 600 !important;
 }
 
 .cal-cell-event-sick {
-  background-color: #6ee7b7 !important; /* Feb 16 - ลาป่วย (Light Green) */
+  background-color: #6ee7b7 !important;
+  /* Feb 16 - ลาป่วย (Light Green) */
   color: #064e3b !important;
   font-weight: 600 !important;
 }
 
 .cal-cell-event-other {
-  background-color: #2dd4bf !important; /* Feb 22 - อื่นๆ (Cyan) */
+  background-color: #2dd4bf !important;
+  /* Feb 22 - อื่นๆ (Cyan) */
   color: #042f2e !important;
   font-weight: 600 !important;
 }
 
 .cal-cell-event-maternity {
-  background-color: #e879f9 !important; /* Feb 27 - ลาคลอด (Magenta/Pink) */
+  background-color: #e879f9 !important;
+  /* Feb 27 - ลาคลอด (Magenta/Pink) */
   color: #ffffff !important;
   font-weight: 600 !important;
 }
@@ -781,7 +805,8 @@ body {
 }
 
 .dept-summary-table tbody tr {
-  background-color: #bce0fa; /* Alternating soft blue */
+  background-color: #bce0fa;
+  /* Alternating soft blue */
   border-bottom: 2px solid #ffffff;
   font-size: 14.5px;
   font-weight: 500;
@@ -964,18 +989,37 @@ textarea.form-control {
 
 /* Keyframes */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes slideInRight {
-  from { opacity: 0; transform: translateX(30px); }
-  to { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 /* Responsive */
@@ -983,7 +1027,7 @@ textarea.form-control {
   .calendar-page-layout {
     grid-template-columns: 1fr;
   }
-  
+
   .report-content-grid {
     grid-template-columns: 1fr;
   }
@@ -993,20 +1037,20 @@ textarea.form-control {
   .top-header {
     padding: 12px 18px;
   }
-  
+
   .main-nav {
     padding: 0 12px;
     overflow-x: auto;
   }
-  
+
   .nav-menu-list {
     min-width: 600px;
   }
-  
+
   .page-container {
     padding: 16px 16px 36px;
   }
-  
+
   .form-grid-2 {
     grid-template-columns: 1fr;
   }
@@ -1047,6 +1091,7 @@ textarea.form-control {
     opacity: 0;
     transform: translateY(12px) scale(0.98);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -1054,7 +1099,8 @@ textarea.form-control {
 }
 
 .login-card {
-  background-color: #e2f1f8; /* Soft light cyan-blue container like mockup */
+  background-color: #e2f1f8;
+  /* Soft light cyan-blue container like mockup */
   border-radius: 32px;
   padding: 42px 38px 32px;
   box-shadow: 0 16px 40px rgba(15, 60, 90, 0.12), 0 2px 8px rgba(15, 60, 90, 0.05);
@@ -1071,7 +1117,8 @@ textarea.form-control {
   margin: 0 0 4px 0;
   font-size: 28px;
   font-weight: 800;
-  color: #0f3f4c; /* Dark teal as in user's image */
+  color: #0f3f4c;
+  /* Dark teal as in user's image */
   letter-spacing: -0.3px;
   line-height: 1.3;
 }
@@ -1080,7 +1127,8 @@ textarea.form-control {
   margin: 0;
   font-size: 24px;
   font-weight: 800;
-  color: #0f3f4c; /* Dark teal Leave System */
+  color: #0f3f4c;
+  /* Dark teal Leave System */
   letter-spacing: -0.2px;
 }
 
@@ -1101,9 +1149,19 @@ textarea.form-control {
 }
 
 @keyframes shakeAlert {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-4px); }
-  75% { transform: translateX(4px); }
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-4px);
+  }
+
+  75% {
+    transform: translateX(4px);
+  }
 }
 
 .login-form {
@@ -1121,7 +1179,8 @@ textarea.form-control {
 .login-label {
   font-size: 13.5px;
   font-weight: 600;
-  color: #1f2937; /* Clean dark grey label */
+  color: #1f2937;
+  /* Clean dark grey label */
 }
 
 .login-input-box {
@@ -1133,7 +1192,8 @@ textarea.form-control {
 .login-input {
   width: 100%;
   height: 46px;
-  background-color: #d1d7de; /* Greyish neutral fill as in user's mockup */
+  background-color: #d1d7de;
+  /* Greyish neutral fill as in user's mockup */
   border: 1.5px solid transparent;
   border-radius: 8px;
   padding: 10px 16px;
@@ -1208,7 +1268,8 @@ textarea.form-control {
 .forgot-password-link {
   background: none;
   border: none;
-  color: #2563eb; /* Blue link as in mockup */
+  color: #2563eb;
+  /* Blue link as in mockup */
   font-size: 13px;
   text-decoration: underline;
   cursor: pointer;
@@ -1232,8 +1293,10 @@ textarea.form-control {
 .btn-login-submit {
   width: 180px;
   height: 44px;
-  border-radius: 9999px; /* Pill shape like mockup */
-  background-color: #d6d7ee; /* Lilac/slate tinted pill button */
+  border-radius: 9999px;
+  /* Pill shape like mockup */
+  background-color: #d6d7ee;
+  /* Lilac/slate tinted pill button */
   border: 1px solid #c4c6e5;
   color: #2e3440;
   font-size: 15.5px;
@@ -1393,8 +1456,13 @@ textarea.form-control {
 }
 
 @keyframes fadeInModal {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .login-modal-content {
@@ -1408,8 +1476,15 @@ textarea.form-control {
 }
 
 @keyframes zoomModal {
-  from { transform: scale(0.95); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .login-modal-header {
@@ -1800,7 +1875,7 @@ textarea.form-control {
   box-shadow: 0 20px 60px rgba(15, 23, 42, 0.2);
 }
 
-.hr-detail-modal > p {
+.hr-detail-modal>p {
   margin: 0;
   padding: 13px 0;
   border-bottom: 1px solid #edf1f7;
@@ -1810,7 +1885,7 @@ textarea.form-control {
   overflow-wrap: anywhere;
 }
 
-.hr-detail-modal > p strong {
+.hr-detail-modal>p strong {
   color: #172554;
 }
 
@@ -1988,6 +2063,7 @@ textarea.form-control {
 }
 
 @media (max-width: 600px) {
+
   .hr-page,
   .report-page-container {
     padding: 16px;
@@ -2026,5 +2102,474 @@ textarea.form-control {
   .chart-card-wrapper,
   .report-table-section {
     padding: 14px;
+  }
+}
+
+/* ================================
+   HR: จัดการประเภทการลา
+   และจัดการสิทธิ์การลา
+================================ */
+
+/* พื้นฐานหน้าจัดการ HR */
+.hr-page,
+.hr-leave-types-page,
+.hr-leave-entitlements-page {
+  padding: 28px;
+  color: #1e293b;
+  background: #f8fafc;
+  min-height: 100%;
+}
+
+.hr-page h1,
+.hr-leave-types-page h1,
+.hr-leave-entitlements-page h1 {
+  color: #0f172a;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.hr-page p,
+.hr-leave-types-page p,
+.hr-leave-entitlements-page p {
+  color: #64748b;
+  line-height: 1.6;
+}
+
+/* กล่องเนื้อหา */
+.hr-page .hr-panel,
+.hr-leave-types-page .hr-panel,
+.hr-leave-entitlements-page .hr-panel {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 24px;
+  margin-top: 24px;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+/* ช่องค้นหาและช่องกรอกข้อมูล */
+.hr-page input,
+.hr-page select,
+.hr-page textarea,
+.hr-leave-types-page input,
+.hr-leave-types-page select,
+.hr-leave-types-page textarea,
+.hr-leave-entitlements-page input,
+.hr-leave-entitlements-page select,
+.hr-leave-entitlements-page textarea {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  background: #fff;
+  color: #1e293b;
+  font: inherit;
+  box-sizing: border-box;
+}
+
+.hr-page input:focus,
+.hr-page select:focus,
+.hr-page textarea:focus,
+.hr-leave-types-page input:focus,
+.hr-leave-types-page select:focus,
+.hr-leave-types-page textarea:focus,
+.hr-leave-entitlements-page input:focus,
+.hr-leave-entitlements-page select:focus,
+.hr-leave-entitlements-page textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+/* ปุ่ม */
+.hr-page button,
+.hr-leave-types-page button,
+.hr-leave-entitlements-page button {
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.hr-page button:disabled,
+.hr-leave-types-page button:disabled,
+.hr-leave-entitlements-page button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* ตาราง */
+.hr-page table,
+.hr-leave-types-page table,
+.hr-leave-entitlements-page table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.hr-page th,
+.hr-leave-types-page th,
+.hr-leave-entitlements-page th {
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: left;
+  padding: 14px 16px;
+  white-space: nowrap;
+}
+
+.hr-page td,
+.hr-leave-types-page td,
+.hr-leave-entitlements-page td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #e2e8f0;
+  color: #334155;
+  font-size: 14px;
+}
+
+.hr-page tbody tr:hover,
+.hr-leave-types-page tbody tr:hover,
+.hr-leave-entitlements-page tbody tr:hover {
+  background: #f8fafc;
+}
+
+/* ปรับให้ตารางเลื่อนแนวนอนได้บนมือถือ */
+.hr-page .table-container,
+.hr-leave-types-page .table-container,
+.hr-leave-entitlements-page .table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* หน้าต่างเพิ่มหรือแก้ไขข้อมูล */
+.hr-page .modal-content,
+.hr-leave-types-page .modal-content,
+.hr-leave-entitlements-page .modal-content {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.16);
+}
+
+/* มือถือ */
+@media (max-width: 768px) {
+
+  .hr-page,
+  .hr-leave-types-page,
+  .hr-leave-entitlements-page {
+    padding: 16px;
+  }
+
+  .hr-page h1,
+  .hr-leave-types-page h1,
+  .hr-leave-entitlements-page h1 {
+    font-size: 23px;
+  }
+
+  .hr-page .hr-panel,
+  .hr-leave-types-page .hr-panel,
+  .hr-leave-entitlements-page .hr-panel {
+    padding: 16px;
+    margin-top: 16px;
+  }
+}
+
+/* ===== HR Leave Types ===== */
+.hr-leave-types-page,
+.hr-leave-entitlements-page {
+  background: #f8fafc;
+  color: #1e293b;
+  padding: 28px;
+  border-radius: 16px;
+}
+
+.hr-leave-types-page .supervisor-page-heading,
+.hr-leave-entitlements-page .supervisor-page-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.hr-leave-types-page .supervisor-page-heading h2,
+.hr-leave-entitlements-page .supervisor-page-heading h2 {
+  color: #0f172a;
+  font-size: 26px;
+  font-weight: 750;
+  margin: 0 0 8px;
+}
+
+.hr-leave-types-page .supervisor-page-heading p,
+.hr-leave-entitlements-page .supervisor-page-heading p {
+  color: #64748b;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Summary cards */
+.hr-leave-types-page .supervisor-summary-grid,
+.hr-leave-entitlements-page .supervisor-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.hr-leave-types-page .supervisor-summary-card,
+.hr-leave-entitlements-page .supervisor-summary-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 3px 12px rgba(15, 23, 42, 0.035);
+}
+
+.hr-leave-types-page .supervisor-summary-card span,
+.hr-leave-entitlements-page .supervisor-summary-card span {
+  color: #64748b;
+  font-size: 14px;
+}
+
+.hr-leave-types-page .supervisor-summary-card h3,
+.hr-leave-entitlements-page .supervisor-summary-card h3 {
+  margin: 10px 0 0;
+  font-size: 30px;
+  color: #1d4ed8;
+}
+
+/* Main panels */
+.hr-leave-types-page .supervisor-panel,
+.hr-leave-entitlements-page .supervisor-panel {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 22px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.035);
+}
+
+.hr-leave-types-page .supervisor-panel-heading,
+.hr-leave-entitlements-page .supervisor-panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.hr-leave-types-page .supervisor-panel-heading h3,
+.hr-leave-entitlements-page .supervisor-panel-heading h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #0f172a;
+}
+
+/* Tables */
+.hr-leave-types-page .supervisor-table-wrap,
+.hr-leave-entitlements-page .supervisor-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.hr-leave-types-page .supervisor-table,
+.hr-leave-entitlements-page .supervisor-table {
+  width: 100%;
+  min-width: 650px;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.hr-leave-types-page .supervisor-table th,
+.hr-leave-entitlements-page .supervisor-table th {
+  padding: 15px 16px;
+  text-align: left;
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.hr-leave-types-page .supervisor-table td,
+.hr-leave-entitlements-page .supervisor-table td {
+  padding: 15px 16px;
+  border-bottom: 1px solid #edf2f7;
+  color: #334155;
+  font-size: 14px;
+}
+
+.hr-leave-types-page .supervisor-table tbody tr:hover,
+.hr-leave-entitlements-page .supervisor-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.hr-leave-types-page .supervisor-table tbody tr:last-child td,
+.hr-leave-entitlements-page .supervisor-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Buttons */
+.hr-leave-types-page button,
+.hr-leave-entitlements-page button {
+  min-height: 36px;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.hr-leave-types-page .supervisor-primary-button,
+.hr-leave-entitlements-page .supervisor-primary-button {
+  background: #2563eb;
+  color: #fff;
+  border: 1px solid #2563eb;
+}
+
+.hr-leave-types-page .supervisor-primary-button:hover,
+.hr-leave-entitlements-page .supervisor-primary-button:hover {
+  background: #1d4ed8;
+}
+
+.hr-leave-types-page .supervisor-table td button,
+.hr-leave-entitlements-page .supervisor-table td button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+}
+
+.hr-leave-types-page .supervisor-table td button:hover,
+.hr-leave-entitlements-page .supervisor-table td button:hover {
+  background: #eff6ff;
+  border-color: #93c5fd;
+  color: #1d4ed8;
+}
+
+/* Search field */
+.hr-leave-entitlements-page .supervisor-filter-bar {
+  margin-bottom: 18px;
+}
+
+.hr-leave-entitlements-page .supervisor-search-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 440px;
+  padding: 0 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  background: #fff;
+  color: #64748b;
+}
+
+.hr-leave-entitlements-page .supervisor-search-field input {
+  width: 100%;
+  min-width: 0;
+  min-height: 42px;
+  padding: 8px 0;
+  border: 0;
+  outline: none;
+  box-shadow: none;
+  background: transparent;
+  font: inherit;
+}
+
+/* Edit number inputs */
+.hr-leave-entitlements-page .supervisor-table input[type="number"] {
+  width: 76px !important;
+  min-height: 38px;
+  padding: 6px 8px;
+  border: 1px solid #93c5fd;
+  border-radius: 8px;
+  text-align: center;
+  font: inherit;
+}
+
+/* Modal */
+.hr-leave-types-page .hr-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(15, 23, 42, 0.48);
+  backdrop-filter: blur(3px);
+}
+
+.hr-leave-types-page .hr-detail-modal {
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 24px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.2);
+}
+
+.hr-leave-types-page .hr-detail-modal label {
+  display: block;
+  margin-bottom: 6px;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.hr-leave-types-page .hr-detail-modal input:not([type="checkbox"]) {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  box-sizing: border-box;
+  font: inherit;
+}
+
+.hr-leave-types-page .hr-detail-modal input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  accent-color: #2563eb;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+
+  .hr-leave-types-page,
+  .hr-leave-entitlements-page {
+    padding: 16px;
+  }
+
+  .hr-leave-types-page .supervisor-page-heading,
+  .hr-leave-entitlements-page .supervisor-page-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .hr-leave-types-page .supervisor-summary-grid,
+  .hr-leave-entitlements-page .supervisor-summary-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .hr-leave-types-page .supervisor-panel,
+  .hr-leave-entitlements-page .supervisor-panel {
+    padding: 14px;
+  }
+
+  .hr-leave-types-page .supervisor-summary-card,
+  .hr-leave-entitlements-page .supervisor-summary-card {
+    padding: 16px;
   }
 }
