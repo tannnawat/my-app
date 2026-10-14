@@ -1,15 +1,5 @@
-
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Search, Pencil, Check, X } from 'lucide-react';
-const filteredEmployees = employees.filter((employee) => {
-    const keyword = searchText.toLowerCase().trim();
-
-    return (
-        String(employee.id).toLowerCase().includes(keyword) ||
-        employee.name.toLowerCase().includes(keyword) ||
-        employee.department.toLowerCase().includes(keyword)
-    );
-});
 
 const initialEmployees = [
     {
@@ -50,6 +40,7 @@ export default function HRLeaveEntitlementsView() {
     const [editingId, setEditingId] = useState(null);
     const [editValues, setEditValues] = useState({});
 
+    // ค้นหาจากรหัส ชื่อ หรือแผนก
     const filteredEmployees = useMemo(() => {
         const query = searchText.trim().toLowerCase();
 
@@ -64,38 +55,48 @@ export default function HRLeaveEntitlementsView() {
         );
     }, [employees, searchText]);
 
+    // เริ่มแก้ไขข้อมูลพนักงาน
     const startEdit = (employee) => {
         setEditingId(employee.id);
         setEditValues({
-            sick: employee.sick,
-            personal: employee.personal,
-            vacation: employee.vacation,
+            sick: String(employee.sick),
+            personal: String(employee.personal),
+            vacation: String(employee.vacation),
         });
     };
 
+    // บันทึกจำนวนวันลา
     const saveEdit = (id) => {
         const values = {};
 
         for (const field of leaveFields) {
-            const value = Number(editValues[field.key]);
+            const rawValue = editValues[field.key];
 
-            if (!Number.isFinite(value) || value < 0) {
-                alert('จำนวนวันลาต้องเป็นตัวเลขตั้งแต่ 0 ขึ้นไป');
+            if (
+                rawValue === '' ||
+                !Number.isFinite(Number(rawValue)) ||
+                Number(rawValue) < 0
+            ) {
+                alert('กรุณากรอกจำนวนวันลาเป็นตัวเลขตั้งแต่ 0 ขึ้นไป');
                 return;
             }
 
-            values[field.key] = value;
+            values[field.key] = Number(rawValue);
         }
 
         setEmployees((prev) =>
             prev.map((employee) =>
-                employee.id === id ? { ...employee, ...values } : employee
+                employee.id === id
+                    ? { ...employee, ...values }
+                    : employee
             )
         );
 
         setEditingId(null);
+        setEditValues({});
     };
 
+    // ยกเลิกการแก้ไข
     const cancelEdit = () => {
         setEditingId(null);
         setEditValues({});
@@ -110,6 +111,7 @@ export default function HRLeaveEntitlementsView() {
                 </div>
             </div>
 
+            {/* สรุปข้อมูล */}
             <div className="supervisor-summary-grid">
                 <div className="supervisor-summary-card">
                     <span>พนักงานทั้งหมด</span>
@@ -127,6 +129,7 @@ export default function HRLeaveEntitlementsView() {
                 </div>
             </div>
 
+            {/* ตารางสิทธิ์วันลา */}
             <div className="supervisor-panel">
                 <div className="supervisor-panel-heading">
                     <h3>สิทธิ์วันลารายบุคคล</h3>
@@ -135,11 +138,25 @@ export default function HRLeaveEntitlementsView() {
                 <div className="supervisor-filter-bar hr-entitlement-filter">
                     <div className="supervisor-search-field">
                         <Search size={18} />
+
                         <input
+                            type="text"
                             value={searchText}
                             onChange={(e) => setSearchText(e.target.value)}
                             placeholder="ค้นหาชื่อ รหัสพนักงาน หรือแผนก..."
+                            aria-label="ค้นหาพนักงาน"
                         />
+
+                        {searchText && (
+                            <button
+                                type="button"
+                                onClick={() => setSearchText('')}
+                                title="ล้างคำค้นหา"
+                                aria-label="ล้างคำค้นหา"
+                            >
+                                <X size={16} />
+                            </button>
+                        )}
                     </div>
                 </div>
 
@@ -150,16 +167,21 @@ export default function HRLeaveEntitlementsView() {
                                 <th>รหัสพนักงาน</th>
                                 <th>ชื่อพนักงาน</th>
                                 <th>แผนก</th>
+
                                 {leaveFields.map((field) => (
-                                    <th key={field.key}>{field.label}</th>
+                                    <th key={field.key}>
+                                        {field.label}
+                                    </th>
                                 ))}
+
                                 <th>จัดการ</th>
                             </tr>
                         </thead>
 
                         <tbody>
                             {filteredEmployees.map((employee) => {
-                                const isEditing = editingId === employee.id;
+                                const isEditing =
+                                    editingId === employee.id;
 
                                 return (
                                     <tr key={employee.id}>
@@ -173,14 +195,21 @@ export default function HRLeaveEntitlementsView() {
                                                     <input
                                                         type="number"
                                                         min="0"
-                                                        value={editValues[field.key]}
+                                                        step="1"
+                                                        value={
+                                                            editValues[field.key] ?? ''
+                                                        }
                                                         onChange={(e) =>
                                                             setEditValues((prev) => ({
                                                                 ...prev,
-                                                                [field.key]: e.target.value,
+                                                                [field.key]:
+                                                                    e.target.value,
                                                             }))
                                                         }
-                                                        style={{ width: 70 }}
+                                                        style={{ width: 75 }}
+                                                        aria-label={
+                                                            `${field.label} ${employee.name}`
+                                                        }
                                                     />
                                                 ) : (
                                                     `${employee[field.key]} วัน`
@@ -190,18 +219,28 @@ export default function HRLeaveEntitlementsView() {
 
                                         <td>
                                             {isEditing ? (
-                                                <div style={{ display: 'flex', gap: 8 }}>
+                                                <div
+                                                    style={{
+                                                        display: 'flex',
+                                                        gap: 8,
+                                                    }}
+                                                >
                                                     <button
                                                         type="button"
-                                                        onClick={() => saveEdit(employee.id)}
+                                                        onClick={() =>
+                                                            saveEdit(employee.id)
+                                                        }
                                                         title="บันทึก"
+                                                        aria-label="บันทึก"
                                                     >
                                                         <Check size={18} />
                                                     </button>
+
                                                     <button
                                                         type="button"
                                                         onClick={cancelEdit}
                                                         title="ยกเลิก"
+                                                        aria-label="ยกเลิก"
                                                     >
                                                         <X size={18} />
                                                     </button>
@@ -209,7 +248,9 @@ export default function HRLeaveEntitlementsView() {
                                             ) : (
                                                 <button
                                                     type="button"
-                                                    onClick={() => startEdit(employee)}
+                                                    onClick={() =>
+                                                        startEdit(employee)
+                                                    }
                                                 >
                                                     <Pencil size={16} /> แก้ไข
                                                 </button>
@@ -223,7 +264,10 @@ export default function HRLeaveEntitlementsView() {
                                 <tr>
                                     <td
                                         colSpan={4 + leaveFields.length}
-                                        style={{ textAlign: 'center' }}
+                                        style={{
+                                            textAlign: 'center',
+                                            padding: 24,
+                                        }}
                                     >
                                         ไม่พบข้อมูลพนักงาน
                                     </td>
@@ -234,7 +278,13 @@ export default function HRLeaveEntitlementsView() {
                 </div>
             </div>
 
-            <p style={{ marginTop: 12, color: '#64748b', fontSize: 13 }}>
+            <p
+                style={{
+                    marginTop: 12,
+                    color: '#64748b',
+                    fontSize: 13,
+                }}
+            >
                 * ข้อมูลตัวอย่างสำหรับทดสอบหน้าเว็บ ยังไม่ได้เชื่อมต่อฐานข้อมูลจริง
             </p>
         </div>
