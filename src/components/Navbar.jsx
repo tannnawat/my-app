@@ -29,19 +29,15 @@ export default function Navbar({
   ];
 
   // เลือกเมนูตาม Role
-  const menuItems =
-    currentRole === 'employee'
-      ? employeeMenuItems
-      : supervisorMenuItems;
+  
+const menuItems =
+  currentRole === 'supervisor'
+    ? supervisorMenuItems
+    : currentRole === 'hr'
+      ? hrMenuItems
+      : employeeMenuItems;
 
-  if (currentRole === 'supervisor') {
-    menuItems = supervisorMenuItems;
-  } else if (currentRole === 'hr') {
-    menuItems = hrMenuItems;
-  } else {
-    menuItems = employeeMenuItems;
-  }
-
+ 
   return (
     <nav className="main-nav" aria-label="Main Navigation">
       <div className="nav-container">
