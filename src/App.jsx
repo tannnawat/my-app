@@ -318,7 +318,7 @@ function App() {
         )}
 
         {/* TAB 5: Leave history and request status */}
-        ```jsx
+     
         {activeTab === 'history' && (
           <LeaveHistoryView
             requests={
@@ -333,7 +333,7 @@ function App() {
             onSelectRequest={(item) => setSelectedRequest(item)}
           />
         )}
-        ```
+      
 
         {/* TAB 6: Supervisor approval */}
         {activeTab === 'approval' && currentRole === 'supervisor' && (

@@ -15,9 +15,12 @@ export default function Navbar({
   ];
 
   // เมนูของหัวหน้างาน
+
   const supervisorMenuItems = [
     { id: 'dashboard', label: 'หน้าหลัก' },
-    { id: 'approval', label: 'อนุมัติคำขอ' }
+    { id: 'approval', label: 'อนุมัติคำขอ' },
+    { id: 'history', label: 'ประวัติคำขอลา' },
+    { id: 'notifications', label: 'การแจ้งเตือน' },
   ];
 
   // เมนูของ HR
@@ -26,7 +29,10 @@ export default function Navbar({
   ];
 
   // เลือกเมนูตาม Role
-  let menuItems;
+  const menuItems =
+    currentRole === 'employee'
+      ? employeeMenuItems
+      : supervisorMenuItems;
 
   if (currentRole === 'supervisor') {
     menuItems = supervisorMenuItems;
