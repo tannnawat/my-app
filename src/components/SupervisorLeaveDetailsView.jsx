@@ -47,7 +47,7 @@ export default function SupervisorLeaveDetailsView({
 
   if (!request) {
     return (
-      <section className="supervisor-panel supervisor-empty-state leave-detail-not-found">
+      <section className="supervisor-panel supervisor-empty-state supervisor-leave-details leave-detail-not-found">
         <span className="leave-detail-empty-icon">
           <FileText size={30} />
         </span>
