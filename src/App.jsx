@@ -9,6 +9,9 @@ import LeaveHistoryView from './components/LeaveHistoryView';
 import DashboardView from './components/DashboardView';
 import LeaveDetailsModal from './components/LeaveDetailsModal';
 import SupervisorApprovalView from './components/SupervisorApprovalView';
+import SupervisorDashboardView from './components/SupervisorDashboardView';
+import SupervisorLeaveDetailsView from './components/SupervisorLeaveDetailsView';
+import SupervisorNotificationsView from './components/SupervisorNotificationsView';
 import { initialLeaveRequests } from './data/leaveData';
 import { CheckCircle } from 'lucide-react';
 
@@ -136,6 +139,7 @@ function App() {
 
   // Search text for the supervisor approval page
   const [supervisorSearchText, setSupervisorSearchText] = useState('');
+  const [reviewRequest, setReviewRequest] = useState(null);
 
   const showToast = (msg) => {
     setToastMessage(msg);
@@ -257,6 +261,7 @@ function App() {
         }}
         onLogout={handleLogout}
         notifications={notifications}
+        onOpenNotifications={() => setActiveTab('notifications')}
       />
 
       {/* Main Navigation Bar */}
@@ -275,7 +280,22 @@ function App() {
         {activeTab === 'reports' && <SummaryReportView />}
 
         {/* TAB 3: Dashboard */}
-        {activeTab === 'dashboard' && (
+        {activeTab === 'dashboard' && currentRole === 'supervisor' && (
+          <SupervisorDashboardView
+            requests={leaveRequests}
+            onNavigateTab={(tab) => setActiveTab(tab)}
+            onOpenRequest={(request) => {
+              setSelectedRequest(request);
+              setActiveTab('approval-detail');
+            }}
+            onApproveRequest={(request) => {
+              setSelectedRequest(request);
+              setActiveTab('approval-detail');
+            }}
+          />
+        )}
+
+        {activeTab === 'dashboard' && currentRole !== 'supervisor' && (
           <DashboardView onNavigateTab={(tab) => setActiveTab(tab)} />
         )}
 
@@ -301,7 +321,19 @@ function App() {
         )}
 
         {/* TAB 6: Supervisor approval */}
-        {activeTab === 'approval' && (
+        {activeTab === 'approval' && currentRole === 'supervisor' && (
+          <SupervisorApprovalView
+            requests={leaveRequests}
+            searchText={supervisorSearchText}
+            onSearchTextChange={setSupervisorSearchText}
+            onOpenRequest={(request) => {
+              setSelectedRequest(request);
+              setActiveTab('approval-detail');
+            }}
+          />
+        )}
+
+        {activeTab === 'approval' && currentRole !== 'supervisor' && (
           <SupervisorApprovalView
             requests={leaveRequests}
             searchText={supervisorSearchText}
@@ -309,10 +341,44 @@ function App() {
             onOpenRequest={(request) => setSelectedRequest(request)}
           />
         )}
+
+        {activeTab === 'approval-detail' && currentRole === 'supervisor' && selectedRequest && (
+          <SupervisorLeaveDetailsView
+            request={selectedRequest}
+            reviewerName={currentUser?.name || 'หัวหน้างาน'}
+            onBack={() => setActiveTab('approval')}
+            onApprove={() => {
+              handleUpdateStatus(selectedRequest.id, 'อนุมัติ');
+              setSelectedRequest(null);
+              setActiveTab('approval');
+            }}
+            onReject={(reason) => {
+              handleUpdateStatus(selectedRequest.id, 'ไม่อนุมัติ', reason);
+              setSelectedRequest(null);
+              setActiveTab('approval');
+            }}
+          />
+        )}
+
+        {activeTab === 'notifications' && currentRole === 'supervisor' && (
+          <SupervisorNotificationsView
+            notifications={notifications}
+            onOpenNotification={(notification) => {
+              const requestId = notification.requestId ?? notification.leaveRequestId;
+              const matchingRequest = leaveRequests.find((request) => request.id === requestId);
+              if (matchingRequest) {
+                setSelectedRequest(matchingRequest);
+                setActiveTab('approval-detail');
+              } else {
+                showToast(notification.title || 'เปิดการแจ้งเตือนแล้ว');
+              }
+            }}
+          />
+        )}
       </main>
 
       {/* Details and action modal */}
-      {selectedRequest && (
+      {selectedRequest && activeTab !== 'approval-detail' && (
         <LeaveDetailsModal
           request={selectedRequest}
           onClose={() => setSelectedRequest(null)}
