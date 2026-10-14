@@ -24,20 +24,24 @@ export default function Navbar({
   ];
 
   // เมนูของ HR
+
+
   const hrMenuItems = [
-    { id: 'reports', label: 'รายงานสรุป' }
+    { id: 'hr-requests', label: 'จัดการคำขอลา' },
+    { id: 'hr-leave-types', label: 'จัดการประเภทการลา' },
+    { id: 'hr-leave-entitlements', label: 'จัดการสิทธิ์การลา' },
+    { id: 'reports', label: 'รายงานและสรุปข้อมูลการลา' },
   ];
 
   // เลือกเมนูตาม Role
-  
-const menuItems =
-  currentRole === 'supervisor'
-    ? supervisorMenuItems
-    : currentRole === 'hr'
-      ? hrMenuItems
-      : employeeMenuItems;
+  const menuItems =
+    currentRole === 'supervisor'
+      ? supervisorMenuItems
+      : currentRole === 'hr'
+        ? hrMenuItems
+        : employeeMenuItems;
 
- 
+
   return (
     <nav className="main-nav" aria-label="Main Navigation">
       <div className="nav-container">

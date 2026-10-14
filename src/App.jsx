@@ -12,6 +12,9 @@ import SupervisorApprovalView from './components/SupervisorApprovalView';
 import SupervisorDashboardView from './components/SupervisorDashboardView';
 import SupervisorLeaveDetailsView from './components/SupervisorLeaveDetailsView';
 import SupervisorNotificationsView from './components/SupervisorNotificationsView';
+import HRLeaveRequestsView from './components/HRLeaveRequestsView';
+import HRLeaveTypesView from './components/HRLeaveTypesView';
+import HRLeaveEntitlementsView from './components/HRLeaveEntitlementsView';
 import { initialLeaveRequests } from './data/leaveData';
 import { CheckCircle } from 'lucide-react';
 
@@ -287,6 +290,30 @@ function App() {
 
         {/* TAB 2: Leave reports */}
         {activeTab === 'reports' && <SummaryReportView />}
+        {activeTab === 'hr-requests' && currentRole === 'hr' && (
+          <HRLeaveRequestsView requests={leaveRequests} />
+        )}
+
+        {/* หน้า HR: จัดการคำขอลา */}
+        {activeTab === 'hr-requests' && currentRole === 'hr' && (
+          <HRLeaveRequestsView requests={leaveRequests} />
+        )}
+
+        {/* หน้า HR: จัดการประเภทการลา */}
+        {activeTab === 'hr-leave-types' && currentRole === 'hr' && (
+          <HRLeaveTypesView />
+        )}
+
+        {/* หน้า HR: จัดการสิทธิ์การลา */}
+        {activeTab === 'hr-leave-entitlements' && currentRole === 'hr' && (
+          <HRLeaveEntitlementsView />
+        )}
+
+        {/* หน้า HR: รายงานสรุป */}
+        {activeTab === 'reports' && currentRole === 'hr' && (
+          <SummaryReportView />
+        )}
+        ```
 
         {/* TAB 3: Dashboard */}
         {activeTab === 'dashboard' && currentRole === 'supervisor' && (
@@ -318,7 +345,7 @@ function App() {
         )}
 
         {/* TAB 5: Leave history and request status */}
-     
+
         {activeTab === 'history' && (
           <LeaveHistoryView
             requests={
@@ -333,7 +360,7 @@ function App() {
             onSelectRequest={(item) => setSelectedRequest(item)}
           />
         )}
-      
+
 
         {/* TAB 6: Supervisor approval */}
         {activeTab === 'approval' && currentRole === 'supervisor' && (
