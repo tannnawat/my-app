@@ -318,16 +318,22 @@ function App() {
         )}
 
         {/* TAB 5: Leave history and request status */}
+        ```jsx
         {activeTab === 'history' && (
           <LeaveHistoryView
-            requests={leaveRequests.filter(
-              (r) =>
-                r.empId === currentUser.empId ||
-                r.employeeId === currentUser.id
-            )}
+            requests={
+              currentRole === 'supervisor'
+                ? leaveRequests
+                : leaveRequests.filter(
+                  (r) =>
+                    r.empId === currentUser.empId ||
+                    r.employeeId === currentUser.id
+                )
+            }
             onSelectRequest={(item) => setSelectedRequest(item)}
           />
         )}
+        ```
 
         {/* TAB 6: Supervisor approval */}
         {activeTab === 'approval' && currentRole === 'supervisor' && (
