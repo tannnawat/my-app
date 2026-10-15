@@ -368,28 +368,26 @@ function App() {
             }}
           />
         )}
-
-
-        
-
-
-        {activeTab === 'approval-detail' && currentRole === 'supervisor' && selectedRequest && (
-          <SupervisorLeaveDetailsView
-            request={selectedRequest}
-            reviewerName={currentUser?.name || 'หัวหน้างาน'}
-            onBack={() => setActiveTab('approval')}
-            onApprove={() => {
-              handleUpdateStatus(selectedRequest.id, 'อนุมัติ');
-              setSelectedRequest(null);
-              setActiveTab('approval');
-            }}
-            onReject={(reason) => {
-              handleUpdateStatus(selectedRequest.id, 'ไม่อนุมัติ', reason);
-              setSelectedRequest(null);
-              setActiveTab('approval');
-            }}
-          />
-        )}
+        {activeTab === 'approval-detail' &&
+          currentRole === 'supervisor' &&
+          selectedRequest && (
+            <SupervisorLeaveDetailsView
+              request={selectedRequest}
+              reviewerName={currentUser?.name || 'หัวหน้างาน'}
+              currentRole={currentRole}
+              onBack={() => setActiveTab('approval')}
+              onApprove={() => {
+                handleUpdateStatus(selectedRequest.id, 'อนุมัติ');
+                setSelectedRequest(null);
+                setActiveTab('approval');
+              }}
+              onReject={(id, reason) => {
+                handleUpdateStatus(selectedRequest.id, 'ไม่อนุมัติ', reason);
+                setSelectedRequest(null);
+                setActiveTab('approval');
+              }}
+            />
+          )}
 
         {activeTab === 'notifications' && currentRole === 'supervisor' && (
           <SupervisorNotificationsView

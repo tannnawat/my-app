@@ -363,11 +363,14 @@ export default function SupervisorLeaveDetailsView({
           )}
 
           {/* ปุ่มดำเนินการ */}
+
           <div className="supervisor-detail-footer leave-detail-footer">
-            <span className="leave-reviewer-note">
-              <ShieldCheck size={16} />
-              ผู้พิจารณา: {reviewerName || 'หัวหน้างาน'}
-            </span>
+            {currentRole === 'SUPERVISOR' && (
+              <span className="leave-reviewer-note">
+                <ShieldCheck size={16} />
+                ผู้พิจารณา: {reviewerName || 'หัวหน้างาน'}
+              </span>
+            )}
 
             <div className="supervisor-table-actions leave-detail-actions">
               <button
@@ -379,7 +382,8 @@ export default function SupervisorLeaveDetailsView({
               </button>
 
 
-              {isRequestPending && currentRole === 'SUPERVISOR' && (
+
+              {isRequestPending && currentRole === 'supervisor' && (
                 <>
                   <button
                     type="button"
@@ -403,6 +407,7 @@ export default function SupervisorLeaveDetailsView({
 
             </div>
           </div>
+
         </article>
 
         {/* แถบสิทธิ์วันลาคงเหลือ */}
