@@ -7785,3 +7785,66 @@ button.dashboard-summary-card {
     justify-self: start;
   }
 }
+.report-text-search {
+  flex: 1;
+  min-width: 180px;
+}
+
+.report-search-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 10px;
+  background: #fff;
+  border: 1px solid #dbe3ee;
+  border-radius: 9px;
+  color: #64748b;
+}
+
+.report-search-input-wrap:focus-within {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.report-search-input-wrap input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font: inherit;
+  font-size: 13px;
+}
+
+.report-filter-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  align-self: end;
+}
+
+.btn-report-reset {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 9px 12px;
+  color: #475569;
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn-report-reset:hover {
+  background: #f1f5f9;
+}
+
+.report-result-note {
+  margin: 12px 16px;
+  color: #64748b;
+  font-size: 12px;
+}

@@ -292,8 +292,9 @@ function App() {
         {activeTab === 'calendar' && <CalendarQuotaView />}
 
         {/* TAB 2: Leave reports */}
-        {activeTab === 'reports' && <SummaryReportView />}
-
+        {activeTab === 'reports' && (
+          <SummaryReportView requests={leaveRequests} />
+        )}
 
         {/* หน้า HR: จัดการคำขอลา */}
         {activeTab === 'hr-requests' && currentRole === 'hr' && (

@@ -1,55 +1,230 @@
-import React, { useState } from 'react';
-import { Calendar, ChevronDown, Search } from 'lucide-react';
+import React, { useMemo, useState } from 'react';
+import { Calendar, ChevronDown, Search, RotateCcw } from 'lucide-react';
 
-export default function SummaryReportView() {
+export default function SummaryReportView({ requests = [] }) {
   const [dateRange, setDateRange] = useState('01/01/2569 - 28/02/2569');
+
+  // ค่าที่เลือกในช่องค้นหา
+  const [searchText, setSearchText] = useState('');
   const [selectedLeaveType, setSelectedLeaveType] = useState('ทั้งหมด');
   const [selectedEmployee, setSelectedEmployee] = useState('ทั้งหมด');
 
-  // Chart data matching Image 2 exactly
-  // X categories: ลากิจ (7), ลาพักร้อน (45), ลาป่วย (25), ลาคลอด (15), อื่นๆ (1)
-  const chartBars = [
-    { label: 'ลากิจ', value: 7, color: '#f0932b', heightPct: 14 },
-    { label: 'ลาพักร้อน', value: 45, color: '#f87171', heightPct: 90 },
-    { label: 'ลาป่วย', value: 25, color: '#6ee7b7', heightPct: 50 },
-    { label: 'ลาคลอด', value: 15, color: '#e879f9', heightPct: 30 },
-    { label: 'อื่นๆ', value: 1, color: '#2dd4bf', heightPct: 4 }
-  ];
+  // ค่าที่นำไปกรองจริงเมื่อกดค้นหา
+  const [filters, setFilters] = useState({
+    searchText: '',
+    leaveType: 'ทั้งหมด',
+    employee: 'ทั้งหมด',
+  });
 
-  // Department Table data matching Image 2
-  const departmentRows = [
-    { dept: '1', count: 15, days: 42 },
-    { dept: '2', count: 16, days: 37 },
-    { dept: '3', count: 18, days: 33 },
-    { dept: '4', count: 20, days: 23 }
-  ];
+  // รองรับชื่อพนักงานหลายรูปแบบ
+  const getEmployeeName = (request) =>
+    request.name ||
+    request.employeeName ||
+    request.fullName ||
+    'ไม่ระบุชื่อ';
 
-  const totalCount = departmentRows.reduce((sum, r) => sum + r.count, 0); // 69
-  const totalDays = departmentRows.reduce((sum, r) => sum + r.days, 0);   // 135
+  const getEmployeeId = (request) =>
+    String(
+      request.empId ??
+      request.employeeId ??
+      getEmployeeName(request)
+    );
 
-  const handleFilterSearch = (e) => {
-    e.preventDefault();
+  // สร้างตัวเลือกประเภทการลาจากข้อมูลจริง
+  const leaveTypes = useMemo(() => {
+    const types = [
+      'ลากิจ',
+      'ลาพักร้อน',
+      'ลาป่วย',
+      'ลาคลอด',
+      'อื่นๆ',
+    ];
+
+    requests.forEach((request) => {
+      const type = request.leaveType;
+      if (type && !types.includes(type)) {
+        types.push(type);
+      }
+    });
+
+    return types;
+  }, [requests]);
+
+  // สร้างตัวเลือกพนักงานจากข้อมูลจริง ไม่ต้องเขียนชื่อเอง
+  const employees = useMemo(() => {
+    const employeeMap = new Map();
+
+    requests.forEach((request) => {
+      const id = getEmployeeId(request);
+
+      if (!employeeMap.has(id)) {
+        employeeMap.set(id, {
+          id,
+          name: getEmployeeName(request),
+          empId: request.empId || request.employeeId || '',
+        });
+      }
+    });
+
+    return Array.from(employeeMap.values()).sort(
+      (a, b) => a.name.localeCompare(b.name, 'th')
+    );
+  }, [requests]);
+
+  // กรองข้อมูลตามชื่อ/รหัสพนักงาน/แผนก/ประเภทการลา
+  const filteredRequests = useMemo(() => {
+    const keyword = filters.searchText.trim().toLowerCase();
+
+    return requests.filter((request) => {
+      const name = getEmployeeName(request);
+      const employeeId = getEmployeeId(request);
+      const department = request.department || '';
+      const leaveType = request.leaveType || '';
+
+      const matchesKeyword =
+        !keyword ||
+        [
+          name,
+          employeeId,
+          department,
+          leaveType,
+          request.reason,
+          request.status,
+        ]
+          .filter(Boolean)
+          .some((value) =>
+            String(value).toLowerCase().includes(keyword)
+          );
+
+      const matchesLeaveType =
+        filters.leaveType === 'ทั้งหมด' ||
+        leaveType === filters.leaveType;
+
+      const matchesEmployee =
+        filters.employee === 'ทั้งหมด' ||
+        employeeId === filters.employee;
+
+      return (
+        matchesKeyword &&
+        matchesLeaveType &&
+        matchesEmployee
+      );
+    });
+  }, [requests, filters]);
+
+  // สรุปจำนวนวันลาตามประเภทจากข้อมูลที่กรองแล้ว
+  const chartBars = useMemo(() => {
+    const colors = [
+      '#f0932b',
+      '#f87171',
+      '#6ee7b7',
+      '#e879f9',
+      '#2dd4bf',
+      '#60a5fa',
+      '#a78bfa',
+    ];
+
+    return leaveTypes.map((label, index) => ({
+      label,
+      color: colors[index % colors.length],
+      value: filteredRequests.reduce(
+        (sum, request) =>
+          sum +
+          (request.leaveType === label
+            ? Number(request.days) || 0
+            : 0),
+        0
+      ),
+    }));
+  }, [leaveTypes, filteredRequests]);
+
+  // สรุปจำนวนครั้งและจำนวนวันลาแยกตามแผนก
+  const departmentRows = useMemo(() => {
+    const departmentMap = new Map();
+
+    filteredRequests.forEach((request) => {
+      const department = request.department || 'ไม่ระบุแผนก';
+
+      if (!departmentMap.has(department)) {
+        departmentMap.set(department, {
+          dept: department,
+          count: 0,
+          days: 0,
+        });
+      }
+
+      const row = departmentMap.get(department);
+      row.count += 1;
+      row.days += Number(request.days) || 0;
+    });
+
+    return Array.from(departmentMap.values()).sort(
+      (a, b) => a.dept.localeCompare(b.dept, 'th')
+    );
+  }, [filteredRequests]);
+
+  const totalCount = filteredRequests.length;
+  const totalDays = filteredRequests.reduce(
+    (sum, request) => sum + (Number(request.days) || 0),
+    0
+  );
+
+  const chartMax = Math.max(
+    5,
+    Math.ceil(Math.max(0, ...chartBars.map((bar) => bar.value)) / 5) * 5
+  );
+
+  const applyFilters = (event) => {
+    event.preventDefault();
+
+    setFilters({
+      searchText,
+      leaveType: selectedLeaveType,
+      employee: selectedEmployee,
+    });
+  };
+
+  const resetFilters = () => {
+    setSearchText('');
+    setSelectedLeaveType('ทั้งหมด');
+    setSelectedEmployee('ทั้งหมด');
+
+    setFilters({
+      searchText: '',
+      leaveType: 'ทั้งหมด',
+      employee: 'ทั้งหมด',
+    });
   };
 
   return (
     <div className="report-page-container">
-      {/* Title */}
       <div className="report-page-header">
-        <h1 className="page-title-text" style={{ fontSize: '24px', fontWeight: 700, color: '#1a334e', marginBottom: '16px' }}>
-          สรุปรายงานการลา
+        <h1
+          className="page-title-text"
+          style={{
+            fontSize: '24px',
+            fontWeight: 700,
+            color: '#1a334e',
+            marginBottom: '16px',
+          }}
+        >
+          รายงานและสรุปข้อมูลการลา
         </h1>
 
-        {/* Date Range Selector */}
         <div className="report-date-range-bar">
           <span className="range-label">ช่วงเวลา</span>
+
           <div className="range-input-wrapper">
             <input
               type="text"
               id="report-date-range"
               value={dateRange}
               placeholder="วว/ดด/ปป - วว/ดด/ปป"
-              onChange={(e) => setDateRange(e.target.value)}
+              onChange={(event) =>
+                setDateRange(event.target.value)
+              }
             />
+
             <span className="range-icon">
               <Calendar size={17} />
             </span>
@@ -57,72 +232,96 @@ export default function SummaryReportView() {
         </div>
       </div>
 
-      {/* 2 Column Layout: Left Chart, Right Department Table */}
+      {/* กราฟและตาราง */}
       <div className="report-content-grid">
-        {/* Left: Statistics Bar Chart Section */}
         <section className="chart-card-wrapper">
-          <h2 className="section-sub-title">สถิติการลาตามประเภท</h2>
+          <h2 className="section-sub-title">
+            สถิติการลาตามประเภท
+          </h2>
+
           <div className="chart-card" id="chart-leave-types">
-            {/* Legend on top right */}
             <div className="chart-legend-top-right">
-              <span className="legend-chip">
-                <span className="legend-dot dot-sick" /> ลาป่วย
-              </span>
-              <span className="legend-chip">
-                <span className="legend-dot dot-business" /> ลากิจ
-              </span>
-              <span className="legend-chip">
-                <span className="legend-dot dot-vacation" /> ลาพักร้อน
-              </span>
-              <span className="legend-chip">
-                <span className="legend-dot dot-maternity" /> ลาคลอด
-              </span>
-              <span className="legend-chip">
-                <span className="legend-dot dot-other" /> อื่นๆ
-              </span>
+              {chartBars.map((bar) => (
+                <span className="legend-chip" key={bar.label}>
+                  <span
+                    className="legend-dot"
+                    style={{ backgroundColor: bar.color }}
+                  />
+                  {bar.label}
+                </span>
+              ))}
             </div>
 
-            {/* Custom SVG Bar Chart matching Image 2 */}
-            <div style={{ paddingTop: '20px', width: '100%', overflowX: 'auto' }}>
-              <svg viewBox="0 0 500 280" className="bar-chart-svg" style={{ minWidth: '380px' }}>
-                {/* Y-Axis lines and numbers */}
-                {[
-                  { val: 50, y: 30 },
-                  { val: 44, y: 56 },
-                  { val: 37, y: 88 },
-                  { val: 29, y: 120 },
-                  { val: 22, y: 150 },
-                  { val: 15, y: 180 },
-                  { val: 7, y: 215 },
-                  { val: 0, y: 245 }
-                ].map((tick) => (
-                  <g key={`y-${tick.val}`}>
-                    <text x="35" y={tick.y + 4} fontSize="11" fill="#64748b" textAnchor="end">
-                      {tick.val}
-                    </text>
-                    <line x1="45" y1={tick.y} x2="480" y2={tick.y} stroke="#e2e8f0" strokeDasharray="3,3" />
-                  </g>
-                ))}
-
-                {/* Y-Axis base line */}
-                <line x1="45" y1="245" x2="480" y2="245" stroke="#475569" strokeWidth="1.5" />
-                <line x1="45" y1="20" x2="45" y2="245" stroke="#475569" strokeWidth="1.5" />
-
-                {/* 5 Bars */}
-                {chartBars.map((bar, idx) => {
-                  const barWidth = 46;
-                  // Distribute bars across X axis
-                  const x = 70 + idx * 82;
-                  const maxHeight = 215; // from y=30 to y=245
-                  const barHeight = (bar.value / 50) * maxHeight;
-                  const y = 245 - barHeight;
+            <div
+              style={{
+                paddingTop: '20px',
+                width: '100%',
+                overflowX: 'auto',
+              }}
+            >
+              <svg
+                viewBox="0 0 500 280"
+                className="bar-chart-svg"
+                style={{ minWidth: '380px', width: '100%' }}
+              >
+                {[0, 1, 2, 3, 4, 5].map((index) => {
+                  const value = chartMax * (5 - index) / 5;
+                  const y = 32 + index * 42;
 
                   return (
-                    <g key={bar.label} style={{ cursor: 'pointer' }}>
-                      {/* Value label on top of bar */}
+                    <g key={index}>
                       <text
-                        x={x + barWidth / 2}
-                        y={y - 8}
+                        x="35"
+                        y={y + 4}
+                        fontSize="11"
+                        fill="#64748b"
+                        textAnchor="end"
+                      >
+                        {Math.round(value)}
+                      </text>
+
+                      <line
+                        x1="45"
+                        y1={y}
+                        x2="480"
+                        y2={y}
+                        stroke="#e2e8f0"
+                        strokeDasharray="3,3"
+                      />
+                    </g>
+                  );
+                })}
+
+                <line
+                  x1="45"
+                  y1="242"
+                  x2="480"
+                  y2="242"
+                  stroke="#475569"
+                  strokeWidth="1.5"
+                />
+
+                <line
+                  x1="45"
+                  y1="32"
+                  x2="45"
+                  y2="242"
+                  stroke="#475569"
+                  strokeWidth="1.5"
+                />
+
+                {chartBars.map((bar, index) => {
+                  const step = 420 / Math.max(chartBars.length, 1);
+                  const width = Math.min(48, step * 0.58);
+                  const x = 52 + index * step + (step - width) / 2;
+                  const height = (bar.value / chartMax) * 210;
+                  const y = 242 - height;
+
+                  return (
+                    <g key={bar.label}>
+                      <text
+                        x={x + width / 2}
+                        y={Math.max(24, y - 8)}
                         fontSize="12"
                         fontWeight="600"
                         fill="#334155"
@@ -131,27 +330,24 @@ export default function SummaryReportView() {
                         {bar.value}
                       </text>
 
-                      {/* Bar rectangle with hover effect */}
                       <rect
                         x={x}
                         y={y}
-                        width={barWidth}
-                        height={barHeight}
+                        width={width}
+                        height={Math.max(bar.value ? height : 0, 0)}
                         fill={bar.color}
-                        rx="2"
-                        ry="2"
-                        opacity="0.95"
+                        rx="3"
                       >
-                        <title>{`${bar.label}: ${bar.value} วัน`}</title>
+                        <title>
+                          {`${bar.label}: ${bar.value} วัน`}
+                        </title>
                       </rect>
 
-                      {/* X-axis Label below bar */}
                       <text
-                        x={x + barWidth / 2}
+                        x={x + width / 2}
                         y="262"
-                        fontSize="11.5"
+                        fontSize="11"
                         fill="#334155"
-                        fontWeight="500"
                         textAnchor="middle"
                       >
                         {bar.label}
@@ -161,28 +357,62 @@ export default function SummaryReportView() {
                 })}
               </svg>
             </div>
+
+            <p className="report-result-note">
+              กำลังแสดงข้อมูล {filteredRequests.length} คำขอ
+            </p>
           </div>
         </section>
 
-        {/* Right: Department Table Section */}
         <section className="report-table-section">
-          {/* Filters Form */}
-          <form className="report-filter-row" onSubmit={handleFilterSearch}>
+          {/* ตัวกรอง */}
+          <form
+            className="report-filter-row"
+            onSubmit={applyFilters}
+          >
+            <div className="report-filter-item report-text-search">
+              <label htmlFor="report-search-text">
+                ค้นหาพนักงาน
+              </label>
+
+              <div className="report-search-input-wrap">
+                <Search size={17} />
+
+                <input
+                  id="report-search-text"
+                  type="text"
+                  value={searchText}
+                  placeholder="ชื่อ รหัส หรือแผนก"
+                  onChange={(event) =>
+                    setSearchText(event.target.value)
+                  }
+                />
+              </div>
+            </div>
+
             <div className="report-filter-item">
-              <label htmlFor="filter-report-type">ประเภทการลา</label>
+              <label htmlFor="filter-report-type">
+                ประเภทการลา
+              </label>
+
               <div className="report-select-wrap">
                 <select
                   id="filter-report-type"
                   className="report-select"
                   value={selectedLeaveType}
-                  onChange={(e) => setSelectedLeaveType(e.target.value)}
+                  onChange={(event) =>
+                    setSelectedLeaveType(event.target.value)
+                  }
                 >
                   <option value="ทั้งหมด">ทั้งหมด</option>
-                  <option value="ลาป่วย">ลาป่วย</option>
-                  <option value="ลากิจ">ลากิจ</option>
-                  <option value="ลาพักร้อน">ลาพักร้อน</option>
-                  <option value="ลาคลอด">ลาคลอด</option>
+
+                  {leaveTypes.map((type) => (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
+                  ))}
                 </select>
+
                 <span className="report-select-arrow">
                   <ChevronDown size={16} />
                 </span>
@@ -190,50 +420,100 @@ export default function SummaryReportView() {
             </div>
 
             <div className="report-filter-item">
-              <label htmlFor="filter-report-emp">พนักงาน</label>
+              <label htmlFor="filter-report-emp">
+                พนักงาน
+              </label>
+
               <div className="report-select-wrap">
                 <select
                   id="filter-report-emp"
                   className="report-select"
                   value={selectedEmployee}
-                  onChange={(e) => setSelectedEmployee(e.target.value)}
+                  onChange={(event) =>
+                    setSelectedEmployee(event.target.value)
+                  }
                 >
                   <option value="ทั้งหมด">ทั้งหมด</option>
-                  <option value="นายยุทธศักดิ์ มีดาบ">นายยุทธศักดิ์ มีดาบ</option>
-                  <option value="นายอดิสรณ์ สมบัติ">นายอดิสรณ์ สมบัติ</option>
-                  <option value="นายอัครพล มีอยู่">นายอัครพล มีอยู่</option>
-                  <option value="นางสาวมณีวงศ์ สำราญ">นางสาวมณีวงศ์ สำราญ</option>
+
+                  {employees.map((employee) => (
+                    <option
+                      key={employee.id}
+                      value={employee.id}
+                    >
+                      {employee.name}
+                      {employee.empId
+                        ? ` (${employee.empId})`
+                        : ''}
+                    </option>
+                  ))}
                 </select>
+
                 <span className="report-select-arrow">
                   <ChevronDown size={16} />
                 </span>
               </div>
             </div>
 
-            <button type="submit" className="btn-report-search" id="btn-report-search">
-              ค้นหา
-            </button>
+            <div className="report-filter-actions">
+              <button
+                type="submit"
+                className="btn-report-search"
+                id="btn-report-search"
+              >
+                <Search size={16} />
+                ค้นหา
+              </button>
+
+              <button
+                type="button"
+                className="btn-report-reset"
+                onClick={resetFilters}
+              >
+                <RotateCcw size={15} />
+                ล้างค่า
+              </button>
+            </div>
           </form>
 
-          {/* Department Leave Summary Table */}
+          {/* ตารางสรุปข้อมูลจริง */}
           <div className="dept-table-card">
-            <table className="dept-summary-table" aria-label="ตารางสถิติการลาแยกตามแผนก">
+            <table
+              className="dept-summary-table"
+              aria-label="ตารางสถิติการลาแยกตามแผนก"
+            >
               <thead>
                 <tr>
-                  <th style={{ width: '33.33%' }}>แผนก</th>
-                  <th style={{ width: '33.33%' }}>จำนวนครั้ง</th>
-                  <th style={{ width: '33.33%' }}>จำนวนวัน</th>
+                  <th style={{ width: '50%' }}>แผนก</th>
+                  <th style={{ width: '25%' }}>จำนวนครั้ง</th>
+                  <th style={{ width: '25%' }}>จำนวนวัน</th>
                 </tr>
               </thead>
+
               <tbody>
-                {departmentRows.map((row) => (
-                  <tr key={`dept-${row.dept}`}>
-                    <td>{row.dept}</td>
-                    <td>{row.count}</td>
-                    <td>{row.days}</td>
+                {departmentRows.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan={3}
+                      style={{
+                        textAlign: 'center',
+                        padding: '24px',
+                        color: '#64748b',
+                      }}
+                    >
+                      ไม่พบข้อมูลตามเงื่อนไขที่ค้นหา
+                    </td>
                   </tr>
-                ))}
+                ) : (
+                  departmentRows.map((row) => (
+                    <tr key={row.dept}>
+                      <td>{row.dept}</td>
+                      <td>{row.count}</td>
+                      <td>{row.days}</td>
+                    </tr>
+                  ))
+                )}
               </tbody>
+
               <tfoot>
                 <tr>
                   <td>รวมทั้งหมด</td>
