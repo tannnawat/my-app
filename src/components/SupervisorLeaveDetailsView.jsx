@@ -123,16 +123,8 @@ export default function SupervisorLeaveDetailsView({
 
   return (
     <section className="supervisor-page supervisor-leave-details">
-      {/* ปุ่มย้อนกลับ */}
-      <button
-        type="button"
-        className="supervisor-back-button leave-detail-back"
-        onClick={onBack}
-      >
-        <ArrowLeft size={17} />
-        กลับไปรายการคำขอ
-      </button>
-
+     
+    
       {/* ส่วนหัว */}
       <div className="supervisor-page-heading supervisor-detail-heading leave-detail-heading">
         <div>
