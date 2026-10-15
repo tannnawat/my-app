@@ -10,22 +10,22 @@ export default function LeaveRequestFormView({ onSubmitRequest, onNavigateToHist
   const [isSuccess, setIsSuccess] = useState(false);
 
   // Quota map for preview
-  
-// Quota map for preview
-const quotaMap = {
-  'ลาป่วย': 5,
-  'ลากิจ': 3,
-  'ลาพักร้อน': 10,
-  'ลาคลอด': 0,
-  'อื่นๆ': 6,
 
-  // เพิ่มประเภทการลาใหม่
-  'ลาป่วย (ต้องแนบหลักฐาน)': 5,
-  'ลาคลอด (ต้องแนบหลักฐาน)': 90,
-  'ลาอื่นๆ/ฝึกอบรม (ต้องแนบหลักฐาน)': 5
-};
+  // Quota map for preview
+  const quotaMap = {
+    'ลาป่วย': 5,
+    'ลากิจ': 3,
+    'ลาพักร้อน': 10,
+    'ลาคลอด': 0,
+    'อื่นๆ': 6,
 
-  
+    // เพิ่มประเภทการลาใหม่
+    'ลาป่วย (ต้องแนบหลักฐาน)': 5,
+    'ลาคลอด (ต้องแนบหลักฐาน)': 90,
+    'ลาอื่นๆ/ฝึกอบรม (ต้องแนบหลักฐาน)': 5
+  };
+
+
 
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -105,7 +105,7 @@ const quotaMap = {
         <div className="form-grid-2">
           {/* Leave Type */}
           <div className="form-group">
-            <label htmlFor="form-leave-type">ประเภทการลา *</label>
+            <label htmlFor="form-leave-type">สิทธิ์การลาคงเหลือ *</label>
             <select
               id="form-leave-type"
               className="form-control"
@@ -122,7 +122,13 @@ const quotaMap = {
 
           ```jsx
           {/* ประเภทการลา */}
-          <div className="form-group">
+          <div
+            className="form-group"
+            style={{
+              gridColumn: '2',
+              minWidth: 0
+            }}
+          >
             <label htmlFor="leaveType">
               ประเภทการลา <span style={{ color: '#dc2626' }}>*</span>
             </label>
@@ -143,7 +149,8 @@ const quotaMap = {
                 color: '#334155',
                 fontSize: '15px',
                 outlineColor: '#647fc5',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                boxSizing: 'border-box'
               }}
             >
               <option value="">-- เลือกประเภทการลา --</option>
@@ -161,6 +168,7 @@ const quotaMap = {
             </select>
           </div>
           ```
+
         </div>
 
         {/* Date Ranges */}
@@ -192,7 +200,7 @@ const quotaMap = {
 
         {/* Reason */}
         <div className="form-group" style={{ marginBottom: '18px' }}>
-          <label htmlFor="form-reason">เหตุผลการลา *</label>
+          <label htmlFor="form-reason">เหตุผลการลา</label>
           <textarea
             id="form-reason"
             className="form-control"
