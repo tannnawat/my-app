@@ -228,9 +228,7 @@ export default function LeaveRequestFormView({ onSubmitRequest, onNavigateToHist
             </div>
           </label>
         </div>
-
-        {/* Submit button */}
-        ```jsx
+       
         {/* Submit button */}
         <div style={{
           display: 'flex',
@@ -261,7 +259,7 @@ export default function LeaveRequestFormView({ onSubmitRequest, onNavigateToHist
             ส่งคำขอลา
           </button>
         </div>
-        ```
+        
       </form>
     </div>
   );
