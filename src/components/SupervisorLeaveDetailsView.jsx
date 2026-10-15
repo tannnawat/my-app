@@ -54,14 +54,7 @@ export default function SupervisorLeaveDetailsView({
         </span>
         <strong>ไม่พบคำขอลาที่เลือก</strong>
         <p>คำขออาจถูกลบหรือไม่มีข้อมูลให้แสดง</p>
-        <button
-          type="button"
-          className="supervisor-secondary-button"
-          onClick={onBack}
-        >
-          <ArrowLeft size={16} />
-          กลับไปรายการคำขอ
-        </button>
+      
       </section>
     );
   }
