@@ -54,7 +54,7 @@ export default function SupervisorLeaveDetailsView({
         </span>
         <strong>ไม่พบคำขอลาที่เลือก</strong>
         <p>คำขออาจถูกลบหรือไม่มีข้อมูลให้แสดง</p>
-      
+
       </section>
     );
   }
@@ -123,8 +123,8 @@ export default function SupervisorLeaveDetailsView({
 
   return (
     <section className="supervisor-page supervisor-leave-details">
-     
-    
+
+
       {/* ส่วนหัว */}
       <div className="supervisor-page-heading supervisor-detail-heading leave-detail-heading">
         <div>
@@ -361,7 +361,7 @@ export default function SupervisorLeaveDetailsView({
             <div className="supervisor-table-actions leave-detail-actions">
               <button
                 type="button"
-                className="supervisor-secondary-button"
+                className="your-close-button-class"
                 onClick={onBack}
               >
                 ปิด

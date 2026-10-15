@@ -375,7 +375,10 @@ function App() {
               request={selectedRequest}
               reviewerName={currentUser?.name || 'หัวหน้างาน'}
               currentRole={currentRole}
-              onBack={() => setActiveTab('approval')}
+              onBack={() => {
+                setSelectedRequest(null);
+                setActiveTab('approval');
+              }}
               onApprove={() => {
                 handleUpdateStatus(selectedRequest.id, 'อนุมัติ');
                 setSelectedRequest(null);
