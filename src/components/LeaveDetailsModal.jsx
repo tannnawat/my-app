@@ -68,7 +68,6 @@ export default function LeaveDetailsModal({ request, onClose, onUpdateStatus, cu
         <div className="modal-body">
           {/* Applicant Info */}
           <div className="applicant-card">
-            
             <div className="applicant-info">
               <h4>{request.name}</h4>
               <div className="applicant-meta">
