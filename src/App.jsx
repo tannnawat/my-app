@@ -409,14 +409,18 @@ function App() {
         )}
       </main>
 
+
+
       {/* Details and action modal */}
       {selectedRequest && activeTab !== 'approval-detail' && (
         <LeaveDetailsModal
           request={selectedRequest}
+          currentRole={currentRole}
           onClose={() => setSelectedRequest(null)}
           onUpdateStatus={handleUpdateStatus}
         />
       )}
+
 
       {/* Toast notice */}
       {toastMessage && (

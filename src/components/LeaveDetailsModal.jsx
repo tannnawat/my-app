@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X, CheckCircle, XCircle, Calendar, FileText, UserCheck, Clock, AlertTriangle } from 'lucide-react';
 
-export default function LeaveDetailsModal({ request, onClose, onUpdateStatus }) {
+export default function LeaveDetailsModal({ request, onClose, onUpdateStatus, currentRole }) {
   const [rejectReasonInput, setRejectReasonInput] = useState('');
   const [showRejectBox, setShowRejectBox] = useState(false);
 
@@ -191,42 +191,56 @@ export default function LeaveDetailsModal({ request, onClose, onUpdateStatus }) 
           </div>
         </div>
 
+        ```jsx
         {/* Modal Footer */}
         <div className="modal-footer">
-          <div style={{ fontSize: '13px', color: '#64748b', display: 'flex', alignItems: 'center', gap: '5px' }}>
-            <UserCheck size={16} /> ผู้ตรวจสอบ: นายยุทธศักดิ์ มีดาบ
+          <div
+            style={{
+              fontSize: '13px',
+              color: '#64748b',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '5px'
+            }}
+          >
+            <UserCheck size={16} />
+            ผู้ตรวจสอบ: นายยุทธศักดิ์ มีดาบ
           </div>
 
-          <div className="action-buttons-group">
-            <button
-              type="button"
-              className="btn-action-cancel"
-              onClick={onClose}
-            >
-              ปิด
-            </button>
+          {/* ซ่อนปุ่มทั้งหมดเมื่อเป็นพนักงาน */}
+          {currentRole !== 'employee' && (
+            <div className="action-buttons-group">
+              <button
+                type="button"
+                className="btn-action-cancel"
+                onClick={onClose}
+              >
+                ปิด
+              </button>
 
-            <button
-              type="button"
-              className="btn-action-reject"
-              onClick={handleReject}
-              id="btn-modal-reject"
-            >
-              <XCircle size={16} />
-              {showRejectBox ? 'ยืนยันไม่อนุมัติ' : 'ไม่อนุมัติ'}
-            </button>
+              <button
+                type="button"
+                className="btn-action-reject"
+                onClick={handleReject}
+                id="btn-modal-reject"
+              >
+                <XCircle size={16} />
+                {showRejectBox ? 'ยืนยันไม่อนุมัติ' : 'ไม่อนุมัติ'}
+              </button>
 
-            <button
-              type="button"
-              className="btn-action-approve"
-              onClick={handleApprove}
-              id="btn-modal-approve"
-            >
-              <CheckCircle size={16} />
-              อนุมัติ
-            </button>
-          </div>
+              <button
+                type="button"
+                className="btn-action-approve"
+                onClick={handleApprove}
+                id="btn-modal-approve"
+              >
+                <CheckCircle size={16} />
+                อนุมัติ
+              </button>
+            </div>
+          )}
         </div>
+        ```
       </div>
     </div>
   );
