@@ -16,47 +16,30 @@ export default function SummaryReportView({ requests = [] }) {
     employee: 'ทั้งหมด',
   });
 
-  // รองรับชื่อพนักงานหลายรูปแบบ
   const getEmployeeName = (request) =>
-    request.name ||
-    request.employeeName ||
-    request.fullName ||
-    'ไม่ระบุชื่อ';
+    request.name || request.employeeName || request.fullName || 'ไม่ระบุชื่อ';
 
   const getEmployeeId = (request) =>
-    String(
-      request.empId ??
-      request.employeeId ??
-      getEmployeeName(request)
-    );
+    String(request.empId ?? request.employeeId ?? getEmployeeName(request));
 
   // สร้างตัวเลือกประเภทการลาจากข้อมูลจริง
   const leaveTypes = useMemo(() => {
-    const types = [
-      'ลากิจ',
-      'ลาพักร้อน',
-      'ลาป่วย',
-      'ลาคลอด',
-      'อื่นๆ',
-    ];
+    const types = ['ลากิจ', 'ลาพักร้อน', 'ลาป่วย', 'ลาคลอด', 'อื่นๆ'];
 
     requests.forEach((request) => {
       const type = request.leaveType;
-      if (type && !types.includes(type)) {
-        types.push(type);
-      }
+      if (type && !types.includes(type)) types.push(type);
     });
 
     return types;
   }, [requests]);
 
-  // สร้างตัวเลือกพนักงานจากข้อมูลจริง ไม่ต้องเขียนชื่อเอง
+  // สร้างตัวเลือกพนักงานจากข้อมูลจริง
   const employees = useMemo(() => {
     const employeeMap = new Map();
 
     requests.forEach((request) => {
       const id = getEmployeeId(request);
-
       if (!employeeMap.has(id)) {
         employeeMap.set(id, {
           id,
@@ -66,8 +49,8 @@ export default function SummaryReportView({ requests = [] }) {
       }
     });
 
-    return Array.from(employeeMap.values()).sort(
-      (a, b) => a.name.localeCompare(b.name, 'th')
+    return Array.from(employeeMap.values()).sort((a, b) =>
+      a.name.localeCompare(b.name, 'th')
     );
   }, [requests]);
 
@@ -83,32 +66,17 @@ export default function SummaryReportView({ requests = [] }) {
 
       const matchesKeyword =
         !keyword ||
-        [
-          name,
-          employeeId,
-          department,
-          leaveType,
-          request.reason,
-          request.status,
-        ]
+        [name, employeeId, department, leaveType, request.reason, request.status]
           .filter(Boolean)
-          .some((value) =>
-            String(value).toLowerCase().includes(keyword)
-          );
+          .some((value) => String(value).toLowerCase().includes(keyword));
 
       const matchesLeaveType =
-        filters.leaveType === 'ทั้งหมด' ||
-        leaveType === filters.leaveType;
+        filters.leaveType === 'ทั้งหมด' || leaveType === filters.leaveType;
 
       const matchesEmployee =
-        filters.employee === 'ทั้งหมด' ||
-        employeeId === filters.employee;
+        filters.employee === 'ทั้งหมด' || employeeId === filters.employee;
 
-      return (
-        matchesKeyword &&
-        matchesLeaveType &&
-        matchesEmployee
-      );
+      return matchesKeyword && matchesLeaveType && matchesEmployee;
     });
   }, [requests, filters]);
 
@@ -129,10 +97,7 @@ export default function SummaryReportView({ requests = [] }) {
       color: colors[index % colors.length],
       value: filteredRequests.reduce(
         (sum, request) =>
-          sum +
-          (request.leaveType === label
-            ? Number(request.days) || 0
-            : 0),
+          sum + (request.leaveType === label ? Number(request.days) || 0 : 0),
         0
       ),
     }));
@@ -146,11 +111,7 @@ export default function SummaryReportView({ requests = [] }) {
       const department = request.department || 'ไม่ระบุแผนก';
 
       if (!departmentMap.has(department)) {
-        departmentMap.set(department, {
-          dept: department,
-          count: 0,
-          days: 0,
-        });
+        departmentMap.set(department, { dept: department, count: 0, days: 0 });
       }
 
       const row = departmentMap.get(department);
@@ -158,8 +119,8 @@ export default function SummaryReportView({ requests = [] }) {
       row.days += Number(request.days) || 0;
     });
 
-    return Array.from(departmentMap.values()).sort(
-      (a, b) => a.dept.localeCompare(b.dept, 'th')
+    return Array.from(departmentMap.values()).sort((a, b) =>
+      a.dept.localeCompare(b.dept, 'th')
     );
   }, [filteredRequests]);
 
@@ -176,7 +137,6 @@ export default function SummaryReportView({ requests = [] }) {
 
   const applyFilters = (event) => {
     event.preventDefault();
-
     setFilters({
       searchText,
       leaveType: selectedLeaveType,
@@ -188,12 +148,7 @@ export default function SummaryReportView({ requests = [] }) {
     setSearchText('');
     setSelectedLeaveType('ทั้งหมด');
     setSelectedEmployee('ทั้งหมด');
-
-    setFilters({
-      searchText: '',
-      leaveType: 'ทั้งหมด',
-      employee: 'ทั้งหมด',
-    });
+    setFilters({ searchText: '', leaveType: 'ทั้งหมด', employee: 'ทั้งหมด' });
   };
 
   return (
@@ -213,18 +168,14 @@ export default function SummaryReportView({ requests = [] }) {
 
         <div className="report-date-range-bar">
           <span className="range-label">ช่วงเวลา</span>
-
           <div className="range-input-wrapper">
             <input
               type="text"
               id="report-date-range"
               value={dateRange}
               placeholder="วว/ดด/ปป - วว/ดด/ปป"
-              onChange={(event) =>
-                setDateRange(event.target.value)
-              }
+              onChange={(event) => setDateRange(event.target.value)}
             />
-
             <span className="range-icon">
               <Calendar size={17} />
             </span>
@@ -232,54 +183,109 @@ export default function SummaryReportView({ requests = [] }) {
         </div>
       </div>
 
-      {/* กราฟและตาราง */}
+      {/* ย้ายฟอร์มค้นหาออกมาไว้นอก report-content-grid เพื่อให้กว้างเต็มหน้า */}
+      <form className="report-filter-row" onSubmit={applyFilters}>
+        <div className="report-filter-item report-text-search">
+          <label htmlFor="report-search-text">ค้นหาพนักงาน</label>
+          <div className="report-search-input-wrap">
+            <Search size={17} />
+            <input
+              id="report-search-text"
+              type="text"
+              value={searchText}
+              placeholder="ชื่อ รหัส หรือแผนก"
+              onChange={(event) => setSearchText(event.target.value)}
+            />
+          </div>
+        </div>
+
+        <div className="report-filter-item">
+          <label htmlFor="filter-report-type">ประเภทการลา</label>
+          <div className="report-select-wrap">
+            <select
+              id="filter-report-type"
+              className="report-select"
+              value={selectedLeaveType}
+              onChange={(event) => setSelectedLeaveType(event.target.value)}
+            >
+              <option value="ทั้งหมด">ทั้งหมด</option>
+              {leaveTypes.map((type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              ))}
+            </select>
+            <span className="report-select-arrow">
+              <ChevronDown size={16} />
+            </span>
+          </div>
+        </div>
+
+        <div className="report-filter-item">
+          <label htmlFor="filter-report-emp">พนักงาน</label>
+          <div className="report-select-wrap">
+            <select
+              id="filter-report-emp"
+              className="report-select"
+              value={selectedEmployee}
+              onChange={(event) => setSelectedEmployee(event.target.value)}
+            >
+              <option value="ทั้งหมด">ทั้งหมด</option>
+              {employees.map((employee) => (
+                <option key={employee.id} value={employee.id}>
+                  {employee.name}
+                  {employee.empId ? ` (${employee.empId})` : ''}
+                </option>
+              ))}
+            </select>
+            <span className="report-select-arrow">
+              <ChevronDown size={16} />
+            </span>
+          </div>
+        </div>
+
+        <div className="report-filter-actions">
+          <button type="submit" className="btn-report-search" id="btn-report-search">
+            <Search size={16} />
+            ค้นหา
+          </button>
+          <button type="button" className="btn-report-reset" onClick={resetFilters}>
+            <RotateCcw size={15} />
+            ล้างค่า
+          </button>
+        </div>
+      </form>
+
+      {/* กราฟและตารางอยู่ใน grid แยกจากแถบค้นหา */}
       <div className="report-content-grid">
         <section className="chart-card-wrapper">
-          <h2 className="section-sub-title">
-            สถิติการลาตามประเภท
-          </h2>
+          <h2 className="section-sub-title">สถิติการลาตามประเภท</h2>
 
           <div className="chart-card" id="chart-leave-types">
             <div className="chart-legend-top-right">
               {chartBars.map((bar) => (
                 <span className="legend-chip" key={bar.label}>
-                  <span
-                    className="legend-dot"
-                    style={{ backgroundColor: bar.color }}
-                  />
+                  <span className="legend-dot" style={{ backgroundColor: bar.color }} />
                   {bar.label}
                 </span>
               ))}
             </div>
 
-            <div
-              style={{
-                paddingTop: '20px',
-                width: '100%',
-                overflowX: 'auto',
-              }}
-            >
+            <div style={{ paddingTop: '20px', width: '100%', overflowX: 'auto' }}>
               <svg
                 viewBox="0 0 500 280"
                 className="bar-chart-svg"
                 style={{ minWidth: '380px', width: '100%' }}
               >
                 {[0, 1, 2, 3, 4, 5].map((index) => {
-                  const value = chartMax * (5 - index) / 5;
+                  const value = (chartMax * (5 - index)) / 5;
                   const y = 32 + index * 42;
 
                   return (
                     <g key={index}>
-                      <text
-                        x="35"
-                        y={y + 4}
-                        fontSize="11"
-                        fill="#64748b"
-                        textAnchor="end"
-                      >
+                      <text x="35" y={y + 4} fontSize="11" fill="#64748b" textAnchor="end">
                         {Math.round(value)}
                       </text>
-
                       <line
                         x1="45"
                         y1={y}
@@ -292,23 +298,8 @@ export default function SummaryReportView({ requests = [] }) {
                   );
                 })}
 
-                <line
-                  x1="45"
-                  y1="242"
-                  x2="480"
-                  y2="242"
-                  stroke="#475569"
-                  strokeWidth="1.5"
-                />
-
-                <line
-                  x1="45"
-                  y1="32"
-                  x2="45"
-                  y2="242"
-                  stroke="#475569"
-                  strokeWidth="1.5"
-                />
+                <line x1="45" y1="242" x2="480" y2="242" stroke="#475569" strokeWidth="1.5" />
+                <line x1="45" y1="32" x2="45" y2="242" stroke="#475569" strokeWidth="1.5" />
 
                 {chartBars.map((bar, index) => {
                   const step = 420 / Math.max(chartBars.length, 1);
@@ -329,7 +320,6 @@ export default function SummaryReportView({ requests = [] }) {
                       >
                         {bar.value}
                       </text>
-
                       <rect
                         x={x}
                         y={y}
@@ -338,11 +328,8 @@ export default function SummaryReportView({ requests = [] }) {
                         fill={bar.color}
                         rx="3"
                       >
-                        <title>
-                          {`${bar.label}: ${bar.value} วัน`}
-                        </title>
+                        <title>{`${bar.label}: ${bar.value} วัน`}</title>
                       </rect>
-
                       <text
                         x={x + width / 2}
                         y="262"
@@ -365,122 +352,8 @@ export default function SummaryReportView({ requests = [] }) {
         </section>
 
         <section className="report-table-section">
-          {/* ตัวกรอง */}
-          <form
-            className="report-filter-row"
-            onSubmit={applyFilters}
-          >
-            <div className="report-filter-item report-text-search">
-              <label htmlFor="report-search-text">
-                ค้นหาพนักงาน
-              </label>
-
-              <div className="report-search-input-wrap">
-                <Search size={17} />
-
-                <input
-                  id="report-search-text"
-                  type="text"
-                  value={searchText}
-                  placeholder="ชื่อ รหัส หรือแผนก"
-                  onChange={(event) =>
-                    setSearchText(event.target.value)
-                  }
-                />
-              </div>
-            </div>
-
-            <div className="report-filter-item">
-              <label htmlFor="filter-report-type">
-                ประเภทการลา
-              </label>
-
-              <div className="report-select-wrap">
-                <select
-                  id="filter-report-type"
-                  className="report-select"
-                  value={selectedLeaveType}
-                  onChange={(event) =>
-                    setSelectedLeaveType(event.target.value)
-                  }
-                >
-                  <option value="ทั้งหมด">ทั้งหมด</option>
-
-                  {leaveTypes.map((type) => (
-                    <option key={type} value={type}>
-                      {type}
-                    </option>
-                  ))}
-                </select>
-
-                <span className="report-select-arrow">
-                  <ChevronDown size={16} />
-                </span>
-              </div>
-            </div>
-
-            <div className="report-filter-item">
-              <label htmlFor="filter-report-emp">
-                พนักงาน
-              </label>
-
-              <div className="report-select-wrap">
-                <select
-                  id="filter-report-emp"
-                  className="report-select"
-                  value={selectedEmployee}
-                  onChange={(event) =>
-                    setSelectedEmployee(event.target.value)
-                  }
-                >
-                  <option value="ทั้งหมด">ทั้งหมด</option>
-
-                  {employees.map((employee) => (
-                    <option
-                      key={employee.id}
-                      value={employee.id}
-                    >
-                      {employee.name}
-                      {employee.empId
-                        ? ` (${employee.empId})`
-                        : ''}
-                    </option>
-                  ))}
-                </select>
-
-                <span className="report-select-arrow">
-                  <ChevronDown size={16} />
-                </span>
-              </div>
-            </div>
-
-            <div className="report-filter-actions">
-              <button
-                type="submit"
-                className="btn-report-search"
-                id="btn-report-search"
-              >
-                <Search size={16} />
-                ค้นหา
-              </button>
-
-              <button
-                type="button"
-                className="btn-report-reset"
-                onClick={resetFilters}
-              >
-                <RotateCcw size={15} />
-                ล้างค่า
-              </button>
-            </div>
-          </form>
-
-          {/* ตารางสรุปข้อมูลจริง */}
           <div className="dept-table-card">
-            <table
-              className="dept-summary-table"
-              aria-label="ตารางสถิติการลาแยกตามแผนก"
-            >
+            <table className="dept-summary-table" aria-label="ตารางสถิติการลาแยกตามแผนก">
               <thead>
                 <tr>
                   <th style={{ width: '50%' }}>แผนก</th>
@@ -488,18 +361,10 @@ export default function SummaryReportView({ requests = [] }) {
                   <th style={{ width: '25%' }}>จำนวนวัน</th>
                 </tr>
               </thead>
-
               <tbody>
                 {departmentRows.length === 0 ? (
                   <tr>
-                    <td
-                      colSpan={3}
-                      style={{
-                        textAlign: 'center',
-                        padding: '24px',
-                        color: '#64748b',
-                      }}
-                    >
+                    <td colSpan={3} style={{ textAlign: 'center', padding: '24px', color: '#64748b' }}>
                       ไม่พบข้อมูลตามเงื่อนไขที่ค้นหา
                     </td>
                   </tr>
@@ -513,7 +378,6 @@ export default function SummaryReportView({ requests = [] }) {
                   ))
                 )}
               </tbody>
-
               <tfoot>
                 <tr>
                   <td>รวมทั้งหมด</td>
