@@ -122,6 +122,7 @@ function App() {
   const [notifications, setNotifications] = useState([
     {
       id: 1,
+      requestId: 101,
       type: 'approved',
       title: 'แจ้งผลอนุมัติคำขอลาป่วย',
       message: 'คำขอลาป่วย วันที่ 16 ก.พ. 2569 ได้รับการอนุมัติแล้ว',
@@ -129,6 +130,7 @@ function App() {
     },
     {
       id: 2,
+      requestId: 102,
       type: 'approved',
       title: 'แจ้งผลอนุมัติคำขอลากิจ',
       message: 'คำขอลากิจ วันที่ 06 ก.พ. 2569 ได้รับการอนุมัติแล้ว',
@@ -154,6 +156,7 @@ function App() {
     setNotifications((prev) => [
       {
         id: Date.now(),
+        requestId: newReq.id,
         type: 'pending',
         title: `ยื่นคำขอ${newReq.leaveType}สำเร็จ`,
         message: `คำขอลา ${newReq.leaveType} วันที่ ${newReq.startDate} อยู่ระหว่างรอการตรวจสอบ`,
@@ -396,13 +399,18 @@ function App() {
           <SupervisorNotificationsView
             notifications={notifications}
             onOpenNotification={(notification) => {
-              const requestId = notification.requestId ?? notification.leaveRequestId;
-              const matchingRequest = leaveRequests.find((request) => request.id === requestId);
-              if (matchingRequest) {
+              const requestId =
+                notification.requestId ?? notification.leaveRequestId;
+
+              const matchingRequest = leaveRequests.find(
+                (request) => String(request.id) === String(requestId)
+              );
+
+              if (requestId != null && matchingRequest) {
                 setSelectedRequest(matchingRequest);
                 setActiveTab('approval-detail');
               } else {
-                showToast(notification.title || 'เปิดการแจ้งเตือนแล้ว');
+                showToast('ไม่พบคำขอที่เชื่อมกับการแจ้งเตือนนี้');
               }
             }}
           />
