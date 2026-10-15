@@ -364,8 +364,9 @@ export default function SupervisorLeaveDetailsView({
 
           {/* ปุ่มดำเนินการ */}
 
+
           <div className="supervisor-detail-footer leave-detail-footer">
-            {currentRole === 'SUPERVISOR' && (
+            {currentRole === 'supervisor' && (
               <span className="leave-reviewer-note">
                 <ShieldCheck size={16} />
                 ผู้พิจารณา: {reviewerName || 'หัวหน้างาน'}
@@ -407,6 +408,7 @@ export default function SupervisorLeaveDetailsView({
 
             </div>
           </div>
+
 
         </article>
 

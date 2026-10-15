@@ -382,7 +382,7 @@ function App() {
                 setActiveTab('approval');
               }}
               onReject={(id, reason) => {
-                handleUpdateStatus(selectedRequest.id, 'ไม่อนุมัติ', reason);
+                handleUpdateStatus(id, 'ไม่อนุมัติ', reason);
                 setSelectedRequest(null);
                 setActiveTab('approval');
               }}
