@@ -10,13 +10,22 @@ export default function LeaveRequestFormView({ onSubmitRequest, onNavigateToHist
   const [isSuccess, setIsSuccess] = useState(false);
 
   // Quota map for preview
-  const quotaMap = {
-    'ลาป่วย': 5,
-    'ลากิจ': 3,
-    'ลาพักร้อน': 10,
-    'ลาคลอด': 0,
-    'อื่นๆ': 6
-  };
+  
+// Quota map for preview
+const quotaMap = {
+  'ลาป่วย': 5,
+  'ลากิจ': 3,
+  'ลาพักร้อน': 10,
+  'ลาคลอด': 0,
+  'อื่นๆ': 6,
+
+  // เพิ่มประเภทการลาใหม่
+  'ลาป่วย (ต้องแนบหลักฐาน)': 5,
+  'ลาคลอด (ต้องแนบหลักฐาน)': 90,
+  'ลาอื่นๆ/ฝึกอบรม (ต้องแนบหลักฐาน)': 5
+};
+
+  
 
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -111,26 +120,47 @@ export default function LeaveRequestFormView({ onSubmitRequest, onNavigateToHist
             </select>
           </div>
 
-          {/* Current Quota info */}
+          ```jsx
+          {/* ประเภทการลา */}
           <div className="form-group">
-            <label>สิทธิ์วันลาคงเหลือปัจจุบัน</label>
-            <div
+            <label htmlFor="leaveType">
+              ประเภทการลา <span style={{ color: '#dc2626' }}>*</span>
+            </label>
+
+            <select
+              id="leaveType"
+              name="leaveType"
+              value={leaveType}
+              onChange={(e) => setLeaveType(e.target.value)}
+              required
               style={{
-                height: '42px',
-                display: 'flex',
-                alignItems: 'center',
+                width: '100%',
+                height: '50px',
                 padding: '0 14px',
-                background: '#f1f8fd',
-                borderRadius: '6px',
-                border: '1px solid #c7e2f6',
-                color: '#1e3a5f',
-                fontWeight: 600,
-                fontSize: '14.5px'
+                border: '1px solid #cbd5e1',
+                borderRadius: '10px',
+                backgroundColor: '#fff',
+                color: '#334155',
+                fontSize: '15px',
+                outlineColor: '#647fc5',
+                cursor: 'pointer'
               }}
             >
-              {quotaMap[leaveType]} วัน
-            </div>
+              <option value="">-- เลือกประเภทการลา --</option>
+              <option value="ลาป่วย (ต้องแนบหลักฐาน)">
+                ลาป่วย (ต้องแนบหลักฐาน)
+              </option>
+              <option value="ลากิจ">ลากิจ</option>
+              <option value="ลาพักร้อน">ลาพักร้อน</option>
+              <option value="ลาคลอด (ต้องแนบหลักฐาน)">
+                ลาคลอด (ต้องแนบหลักฐาน)
+              </option>
+              <option value="ลาอื่นๆ/ฝึกอบรม (ต้องแนบหลักฐาน)">
+                ลาอื่นๆ/ฝึกอบรม (ต้องแนบหลักฐาน)
+              </option>
+            </select>
           </div>
+          ```
         </div>
 
         {/* Date Ranges */}
@@ -175,7 +205,7 @@ export default function LeaveRequestFormView({ onSubmitRequest, onNavigateToHist
 
         {/* File attachment */}
         <div className="form-group" style={{ marginBottom: '24px' }}>
-          <label>แนบเอกสารประกอบ (เช่น ใบรับรองแพทย์, หนังสือเรียกอบรม)</label>
+          <label>แนบเอกสารประกอบ</label>
           <label className="file-upload-box" htmlFor="file-upload-input">
             <input
               type="file"
