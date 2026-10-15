@@ -213,9 +213,7 @@ const handleSubmit = async (e) => {
                 💼 HR (EMP-0062)
               </button>
             </div>
-            <div className="quick-accounts-note">
-              * รหัสผ่านทดสอบคือ: <code>ChangeMe123!</code> (สามารถแก้ที่ <code>src/data/authData.js</code> ได้)
-            </div>
+
           </div>
         </div>
       </div>
