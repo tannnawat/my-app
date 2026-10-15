@@ -191,7 +191,7 @@ export default function LeaveDetailsModal({ request, onClose, onUpdateStatus, cu
           </div>
         </div>
 
-        ```jsx
+        
         {/* Modal Footer */}
         <div className="modal-footer">
           <div
@@ -208,7 +208,7 @@ export default function LeaveDetailsModal({ request, onClose, onUpdateStatus, cu
           </div>
 
           {/* ซ่อนปุ่มทั้งหมดเมื่อเป็นพนักงาน */}
-          {currentRole !== 'employee' && (
+          {String(currentRole).toLowerCase() !== 'employee' && (
             <div className="action-buttons-group">
               <button
                 type="button"
@@ -240,7 +240,7 @@ export default function LeaveDetailsModal({ request, onClose, onUpdateStatus, cu
             </div>
           )}
         </div>
-        ```
+        
       </div>
     </div>
   );
