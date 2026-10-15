@@ -853,11 +853,22 @@ body {
   margin: 0 auto;
 }
 
+/* หน้าจอปกติ: เรียง 2 คอลัมน์ ซ้าย-ขวา */
 .form-grid-2 {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
   margin-bottom: 18px;
+  align-items: start;
+}
+
+.form-grid-2 .form-group {
+  min-width: 0;
+}
+
+.form-grid-2 .form-control {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .form-group {
@@ -1051,8 +1062,11 @@ textarea.form-control {
     padding: 16px 16px 36px;
   }
 
-  .form-grid-2 {
-    grid-template-columns: 1fr;
+  /* หน้าจอเล็ก: เรียง 1 คอลัมน์ */
+  @media (max-width: 600px) {
+    .form-grid-2 {
+      grid-template-columns: 1fr;
+    }
   }
 }
 
@@ -7094,4 +7108,87 @@ button.dashboard-summary-card {
     flex-direction: column;
     padding: 14px 18px;
   }
+}
+
+/* ปุ่มส่งคำขอ */
+.btn-submit {
+  background: #1d4ed8;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 11px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(29, 78, 216, 0.2);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.btn-submit:hover {
+  background: #1e40af;
+  transform: translateY(-1px);
+}
+
+/* ปุ่มล้างข้อมูล */
+.btn-reset {
+  background: #dc2626;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 11px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(220, 38, 38, 0.2);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.btn-reset:hover {
+  background: #b91c1c;
+  transform: translateY(-1px);
+}
+
+.btn-submit:focus-visible,
+.btn-reset:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 3px;
+}
+
+/* ปุ่มล้างข้อมูล - สีแดง */
+.btn-reset {
+  background-color: #dc2626;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0 22px;
+  height: 44px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.btn-reset:hover {
+  background-color: #b91c1c;
+  transform: translateY(-1px);
+}
+
+/* ปุ่มส่งคำขอลา - สีน้ำเงินเข้ม */
+.btn-submit {
+  background-color: #1d4ed8;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0 28px;
+  height: 44px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(29, 78, 216, 0.2);
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.btn-submit:hover {
+  background-color: #1e40af;
+  transform: translateY(-1px);
 }

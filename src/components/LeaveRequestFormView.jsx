@@ -127,7 +127,7 @@ export default function LeaveRequestFormView({ onSubmitRequest, onNavigateToHist
           {/* ประเภทการลา - ฝั่งขวา */}
           <div className="form-group">
             <label htmlFor="leaveType">
-              ประเภทการลา <span style={{ color: '#dc2626' }}>*</span>
+              ประเภทการลา <span style={{ color: '#022514' }}>*</span>
             </label>
 
             <select
@@ -164,7 +164,7 @@ export default function LeaveRequestFormView({ onSubmitRequest, onNavigateToHist
               </option>
             </select>
           </div>
-         
+
 
         </div>
 
@@ -230,10 +230,17 @@ export default function LeaveRequestFormView({ onSubmitRequest, onNavigateToHist
         </div>
 
         {/* Submit button */}
-        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+        ```jsx
+        {/* Submit button */}
+        <div style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          gap: '12px'
+        }}>
+          {/* ปุ่มล้างข้อมูล */}
           <button
             type="button"
-            className="btn-action-cancel"
+            className="btn-reset"
             onClick={() => {
               setStartDate('');
               setEndDate('');
@@ -243,15 +250,18 @@ export default function LeaveRequestFormView({ onSubmitRequest, onNavigateToHist
           >
             ล้างข้อมูล
           </button>
+
+          {/* ปุ่มส่งคำขอลา */}
           <button
             type="submit"
-            className="btn-header-search"
+            className="btn-submit"
             id="btn-submit-leave-request"
             style={{ padding: '0 28px', height: '44px' }}
           >
             ส่งคำขอลา
           </button>
         </div>
+        ```
       </form>
     </div>
   );
