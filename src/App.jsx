@@ -370,17 +370,7 @@ function App() {
         )}
 
 
-        {activeTab === 'approval' && currentRole === 'supervisor' && (
-          <SupervisorApprovalView
-            requests={leaveRequests}
-            searchText={supervisorSearchText}
-            onSearchTextChange={setSupervisorSearchText}
-            onOpenRequest={(request) => {
-              setSelectedRequest(request);
-              setActiveTab('approval-detail');
-            }}
-          />
-        )}
+        
 
 
         {activeTab === 'approval-detail' && currentRole === 'supervisor' && selectedRequest && (
