@@ -37,6 +37,7 @@ const getLeaveTypeClass = (type) => {
 export default function SupervisorLeaveDetailsView({
   request,
   reviewerName,
+  currentRole,
   onBack,
   onApprove,
   onReject,
@@ -48,7 +49,7 @@ export default function SupervisorLeaveDetailsView({
   if (!request) {
     return (
       <section className="supervisor-panel supervisor-empty-state supervisor-leave-details leave-detail-not-found">
-              <span className="leave-detail-empty-icon">
+        <span className="leave-detail-empty-icon">
           <FileText size={30} />
         </span>
         <strong>ไม่พบคำขอลาที่เลือก</strong>
@@ -377,7 +378,8 @@ export default function SupervisorLeaveDetailsView({
                 ปิด
               </button>
 
-              {isRequestPending && (
+
+              {isRequestPending && currentRole === 'SUPERVISOR' && (
                 <>
                   <button
                     type="button"
@@ -385,9 +387,7 @@ export default function SupervisorLeaveDetailsView({
                     onClick={confirmReject}
                   >
                     <XCircle size={16} />
-                    {showRejectInput
-                      ? 'ยืนยันไม่อนุมัติ'
-                      : 'ไม่อนุมัติ'}
+                    {showRejectInput ? 'ยืนยันไม่อนุมัติ' : 'ไม่อนุมัติ'}
                   </button>
 
                   <button
@@ -400,6 +400,7 @@ export default function SupervisorLeaveDetailsView({
                   </button>
                 </>
               )}
+
             </div>
           </div>
         </article>

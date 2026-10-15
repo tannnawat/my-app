@@ -4389,15 +4389,18 @@ button.dashboard-summary-card {
   line-height: 1.7;
 }
 
+
 .supervisor-leave-details .leave-detail-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 17px;
+  gap: 15px;
   padding: 20px 25px;
-  background: #fafbfe;
+  border-top: 1px solid #edf1f6;
+  background: #fbfcfe;
 }
+
 
 .leave-reviewer-note {
   display: inline-flex;
@@ -4709,10 +4712,7 @@ button.dashboard-summary-card {
     margin: 17px 19px;
   }
 
-  .supervisor-leave-details .leave-detail-footer {
-    align-items: stretch;
-    padding: 18px 19px;
-  }
+
 
   .leave-reviewer-note {
     width: 100%;
@@ -6211,17 +6211,7 @@ button.dashboard-summary-card {
   font-size: 12px;
 }
 
-/* Footer และปุ่มอนุมัติ */
-.supervisor-leave-details .leave-detail-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 15px;
-  padding: 20px 25px;
-  border-top: 1px solid #edf1f6;
-  background: #fbfcfe;
-}
+
 
 .supervisor-leave-details .leave-reviewer-note {
   display: inline-flex;
@@ -6572,10 +6562,13 @@ button.dashboard-summary-card {
     padding: 15px;
   }
 
-  .supervisor-leave-details .leave-detail-footer {
-    align-items: stretch;
-    flex-direction: column;
-    padding: 18px;
+
+  @media (max-width: 600px) {
+    .supervisor-leave-details .leave-detail-footer {
+      align-items: stretch;
+      flex-direction: column;
+      padding: 18px;
+    }
   }
 
   .supervisor-leave-details .leave-detail-actions {
