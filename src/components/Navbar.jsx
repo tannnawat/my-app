@@ -27,10 +27,12 @@ export default function Navbar({
 
 
   const hrMenuItems = [
+    { id: 'dashboard', label: 'หน้าหลัก' },
     { id: 'hr-requests', label: 'จัดการคำขอลา' },
-    { id: 'hr-leave-types', label: 'จัดการประเภทการลา' },
-    { id: 'hr-leave-entitlements', label: 'จัดการสิทธิ์การลา' },
+    { id: 'hr-leave-types', label: 'ประเภทการลา' },
+    { id: 'hr-leave-entitlements', label: 'สิทธิ์การลา' },
     { id: 'reports', label: 'รายงานและสรุปข้อมูลการลา' },
+    { id: 'calendar', label: 'ปฏิทินวันลา / สิทธิ์คงเหลือ' },
   ];
 
   // เลือกเมนูตาม Role

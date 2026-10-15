@@ -15,6 +15,7 @@ import SupervisorNotificationsView from './components/SupervisorNotificationsVie
 import HRLeaveRequestsView from './components/HRLeaveRequestsView';
 import HRLeaveTypesView from './components/HRLeaveTypesView';
 import HRLeaveEntitlementsView from './components/HRLeaveEntitlementsView';
+import HRDashboardView from './components/HRDashboardView';
 import { initialLeaveRequests } from './data/leaveData';
 import { CheckCircle } from 'lucide-react';
 
@@ -212,7 +213,7 @@ function App() {
     } else if (user.role === 'supervisor') {
       setActiveTab('dashboard');
     } else if (user.role === 'hr') {
-      setActiveTab('reports');
+      setActiveTab('dashboard');
     } else {
       // ถ้า Role ไม่ตรง ให้แจ้งเตือน
       showToast(`ไม่พบ Role ที่รองรับ: ${user.role}`);
@@ -328,11 +329,19 @@ function App() {
             }}
           />
         )}
-
-        {activeTab === 'dashboard' && currentRole !== 'supervisor' && (
-          <DashboardView onNavigateTab={(tab) => setActiveTab(tab)} />
+        {/* Dashboard ของ HR */}
+        {activeTab === 'dashboard' && currentRole === 'hr' && (
+          <HRDashboardView
+            requests={leaveRequests}
+            currentUser={currentUser}
+            onNavigateTab={(tab) => setActiveTab(tab)}
+          />
         )}
 
+        {activeTab === 'dashboard' && currentRole === 'employee' && (
+          <DashboardView onNavigateTab={(tab) => setActiveTab(tab)} />
+        )}
+        
         {/* TAB 4: Submit leave request */}
         {activeTab === 'request' && (
           <LeaveRequestFormView

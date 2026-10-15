@@ -209,9 +209,6 @@ export default function SupervisorApprovalView({
                 <tr key={request.id}>
                   <td>
                     <div className="approval-employee-cell">
-                      <div className="approval-avatar">
-                        {String(request.name || '?').trim().charAt(0)}
-                      </div>
                       <div>
                         <strong>{request.name || 'ไม่ระบุชื่อ'}</strong>
                         <small>
@@ -240,7 +237,7 @@ export default function SupervisorApprovalView({
                       <span>
                         {request.startDate || '-'}
                         {request.endDate &&
-                        request.endDate !== request.startDate
+                          request.endDate !== request.startDate
                           ? ` – ${request.endDate}`
                           : ''}
                       </span>
