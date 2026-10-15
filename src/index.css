@@ -7185,3 +7185,105 @@ button.dashboard-summary-card {
   background-color: #1e40af;
   transform: translateY(-1px);
 }
+
+/* จัดหน้าแสดงรายละเอียดคำขอลา */
+.supervisor-leave-details {
+  width: 100%;
+  box-sizing: border-box;
+  color: #1e293b;
+}
+
+/* จัดเนื้อหาหลักและแถบสิทธิ์วันลา */
+.supervisor-leave-details .leave-detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 20px;
+  align-items: start;
+  width: 100%;
+}
+
+/* กล่องรายละเอียด */
+.supervisor-leave-details .leave-detail-main {
+  min-width: 0;
+  padding: 24px;
+  background: #fff;
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+/* จัดช่องข้อมูลการลา */
+.supervisor-leave-details .leave-detail-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+/* จัดปุ่มด้านล่าง */
+.supervisor-leave-details .leave-detail-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.supervisor-leave-details .leave-detail-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.supervisor-leave-details .leave-detail-actions button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  min-height: 40px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.supervisor-leave-details .leave-detail-actions .supervisor-secondary-button {
+  background: #e2e8f0;
+  color: #334155;
+}
+
+.supervisor-leave-details .leave-detail-actions .supervisor-reject-button {
+  background: #dc2626;
+  color: #fff;
+}
+
+.supervisor-leave-details .leave-detail-actions .supervisor-approve-button {
+  background: #16a34a;
+  color: #fff;
+}
+
+/* หน้าจอเล็ก */
+@media (max-width: 768px) {
+  .supervisor-leave-details .leave-detail-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .supervisor-leave-details .leave-detail-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .supervisor-leave-details .leave-detail-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .supervisor-leave-details .leave-detail-actions {
+    justify-content: flex-start;
+  }
+}
