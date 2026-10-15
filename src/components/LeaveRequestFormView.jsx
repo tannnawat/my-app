@@ -103,9 +103,13 @@ export default function LeaveRequestFormView({ onSubmitRequest, onNavigateToHist
 
       <form onSubmit={handleSubmit}>
         <div className="form-grid-2">
-          {/* Leave Type */}
+
+          {/* สิทธิ์การลาคงเหลือ - ฝั่งซ้าย */}
           <div className="form-group">
-            <label htmlFor="form-leave-type">สิทธิ์การลาคงเหลือ *</label>
+            <label htmlFor="form-leave-type">
+              สิทธิ์การลาคงเหลือ *
+            </label>
+
             <select
               id="form-leave-type"
               className="form-control"
@@ -120,15 +124,8 @@ export default function LeaveRequestFormView({ onSubmitRequest, onNavigateToHist
             </select>
           </div>
 
-          ```jsx
-          {/* ประเภทการลา */}
-          <div
-            className="form-group"
-            style={{
-              gridColumn: '2',
-              minWidth: 0
-            }}
-          >
+          {/* ประเภทการลา - ฝั่งขวา */}
+          <div className="form-group">
             <label htmlFor="leaveType">
               ประเภทการลา <span style={{ color: '#dc2626' }}>*</span>
             </label>
@@ -139,6 +136,7 @@ export default function LeaveRequestFormView({ onSubmitRequest, onNavigateToHist
               value={leaveType}
               onChange={(e) => setLeaveType(e.target.value)}
               required
+              className="form-control"
               style={{
                 width: '100%',
                 height: '50px',
@@ -148,9 +146,8 @@ export default function LeaveRequestFormView({ onSubmitRequest, onNavigateToHist
                 backgroundColor: '#fff',
                 color: '#334155',
                 fontSize: '15px',
-                outlineColor: '#647fc5',
-                cursor: 'pointer',
-                boxSizing: 'border-box'
+                boxSizing: 'border-box',
+                cursor: 'pointer'
               }}
             >
               <option value="">-- เลือกประเภทการลา --</option>
@@ -167,9 +164,10 @@ export default function LeaveRequestFormView({ onSubmitRequest, onNavigateToHist
               </option>
             </select>
           </div>
-          ```
+         
 
         </div>
+
 
         {/* Date Ranges */}
         <div className="form-grid-2">
